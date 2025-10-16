@@ -1,37 +1,58 @@
-#inspired by https://docs.cirro.bio/pipelines/development/#automated-testing
 name: test
 
 on:
   pull_request:
-      branches:
-      - 'main'
+    branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NXF_ANSI_LOG: "false"
+  NXF_TEST_PROFILE: "test,docker"
+
 jobs:
-  test:
+  nf-tests:
+    name: Nextflow tests
     runs-on: ubuntu-latest
     steps:
-      - name: setup BATS
-        uses: mig4/setup-bats@v1
+      - uses: actions/checkout@v4
         with:
-          bats-version: 1.2.1
+          fetch-depth: 0
 
-      - uses: actions/checkout@v3
+      # Java (required by Nextflow)
+      - uses: actions/setup-java@v4
         with:
-          submodules: recursive
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: "17"
 
-      - name: install nextflow
+      # Nextflow
+      - uses: nf-core/setup-nextflow@v1
+        with:
+          version: "latest"
+
+      - uses: nf-core/setup-nf-test@v1
+        with:
+          install-pdiff: true
+
+      - name: Run nf-test (CI mode)
         run: |
-          wget -qO- get.nextflow.io | bash
-          sudo mv nextflow /usr/local/bin/
+          mkdir -p .nf-reports
+          nf-test test \
+            --ci \
+            --profile "${NXF_TEST_PROFILE}" \
+            --junitxml ".nf-reports/nf-test.junit.xml" \
+            --tap ".nf-reports/nf-test.tap" \
+            --csv ".nf-reports/nf-test.csv"
 
-      - name: install nf-test
-        run: |
-          wget -qO- https://get.nf-test.com | bash
-          sudo mv nf-test /usr/local/bin
-
-      - name: run tests
-        run: nf-test test
+      - name: Upload nf-test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: nf-test-reports
+          path: .nf-reports/
+          if-no-files-found: warn
