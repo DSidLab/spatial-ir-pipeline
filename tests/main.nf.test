@@ -1,18 +1,46 @@
 nextflow_pipeline {
 
-    name "Test Workflow main.nf"
+    name "sample sheet format"
     script "main.nf"
 
-    test("RCTD on Visium SD with reference as URL") {
-
-        tag "basic-sd"
-
+    test("Should produce an error with invalid sample sheet format") {
+        tag "invalid-sample-format"
         when {
             params {
-                input = "../../../tests/test.csv"
-                outdir = "tests/results"
-                max_memory = "8.GB"
-                max_cpus = 4
+              input = 'dummy'
+            }
+        }
+
+        then {
+            assert workflow.failed
+            def err = (workflow.errorReport ?: workflow.stderr ?: "NO ERROR MESSAGE").toString()
+            assert err.contains("string [dummy] does not match pattern")
+        }
+
+    }
+
+    test("Should produce an error with invalid sample sheet sample path format") {
+        tag "invalid-sample-path"
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_bad_path.csv"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            def err = (workflow.errorReport ?: workflow.stderr ?: "NO ERROR MESSAGE").toString()
+            assert err.contains("sample_path: the file or directory 'dummy_path1' does not exist.")
+        }
+
+    }
+
+    test("Should run successfully") {
+        
+        tag "valid-run"
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_test_mixcr.csv"
             }
         }
 

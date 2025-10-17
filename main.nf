@@ -23,16 +23,16 @@ if (params.help) {
     def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
     def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
     def String command = "nextflow run ${workflow.manifest.name} --input samplesheet.csv -profile docker"
-    log.info logo + paramsHelp(command) + citation + NfcoreTemplate.dashedLine(params.monochrome_logs)
+    log.info logo + citation + NfcoreTemplate.dashedLine(params.monochrome_logs) + paramsHelp(command)
     System.exit(0)
 }
 
+WorkflowMain.initialise(workflow, params, log)
+
 // Validate input parameters
 if (params.validate_params) {
-    //validateParameters()
+    validateParameters()
 }
-
-WorkflowMain.initialise(workflow, params, log)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

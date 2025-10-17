@@ -207,6 +207,7 @@ __marimo__/
 
 # Nextflow
 .nextflow*
+.nf-test*
 work/
-data/
 results/
+out/

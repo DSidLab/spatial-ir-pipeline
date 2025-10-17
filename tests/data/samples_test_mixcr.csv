@@ -1,0 +1,2 @@
+sampleid,sample_path,ir_read_ids,ir_fastq_path
+"pt16","../../../tests/data/pt16","pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz","../../../tests/data/pt16/spatial_ir/ir_fastq"

@@ -24,11 +24,14 @@ class WorkflowMain {
     // Validate parameters and print summary to screen
     //
     public static void initialise(workflow, params, log) {
-
+        
         // Print workflow version and exit on --version
         if (params.version) {
-            String workflow_version = NfcoreTemplate.version(workflow)
-            log.info "${workflow.manifest.name} ${workflow_version}"
+            def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
+            def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
+            String workflow_version = "\n ${workflow.manifest.name} - version: ${NfcoreTemplate.version(workflow)} \n"
+            String dashed_line = NfcoreTemplate.dashedLine(params.monochrome_logs)
+            log.info  logo + citation + dashed_line + workflow_version + dashed_line
             System.exit(0)
         }
 
@@ -43,9 +46,5 @@ class WorkflowMain {
         // Check AWS batch settings
         NfcoreTemplate.awsBatch(workflow, params)
 
-        // Check input has been provided
-        if (!params.input) {
-            Nextflow.error("Please provide an input samplesheet to the pipeline e.g. '--input samplesheet.csv'")
-        }
     }
 }

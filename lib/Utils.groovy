@@ -44,4 +44,14 @@ class Utils {
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         }
     }
+
+    //
+    // Dump pipeline parameters in a json file
+    //
+    public static void make_directory(dir) {
+        def output_d = new File("${dir}/")
+        if (!output_d.exists()) {
+            output_d.mkdirs()
+        }
+    }
 }

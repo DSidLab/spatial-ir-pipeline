@@ -10,7 +10,7 @@
       "type": "object",
       "fa_icon": "fas fa-terminal",
       "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir"],
+      "required": ["input"],
       "properties": {
         "input": {
           "type": "string",
@@ -20,13 +20,15 @@
           "pattern": "^\\S+\\.csv$",
           "description": "Path to comma-separated file containing information about the samples in the experiment.",
           "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-          "fa_icon": "fas fa-file-csv"
+          "fa_icon": "fas fa-file-csv",
+          "schema": "assets/schema_input.json"
         },
         "outdir": {
           "type": "string",
           "format": "directory-path",
           "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-          "fa_icon": "fas fa-folder-open"
+          "fa_icon": "fas fa-folder-open",
+          "default": "out"
         }
       }
     },
@@ -48,7 +50,7 @@
         "max_memory": {
           "type": "string",
           "description": "Maximum amount of memory that can be requested for any single job.",
-          "default": "128.GB",
+          "default": "64.GB",
           "fa_icon": "fas fa-memory",
           "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
           "hidden": true,
@@ -134,6 +136,27 @@
           "hidden": true,
           "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
         }
+      },
+      "institutional_config_options": {
+        "title": "Institutional config options",
+        "type": "object",
+        "fa_icon": "fas fa-university",
+        "description": "Parameters used to describe centralised config profiles. These should not be edited.",
+        "help_text": "The centralised nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.",
+        "properties": {
+          "config_profile_name": {
+            "type": "string",
+            "description": "Institutional config name.",
+            "hidden": true,
+            "fa_icon": "fas fa-users-cog"
+          },
+          "config_profile_description": {
+            "type": "string",
+            "description": "Institutional config description.",
+            "hidden": true,
+            "fa_icon": "fas fa-users-cog"
+          }
+        }
       }
     }
   },
@@ -147,5 +170,17 @@
     {
       "$ref": "#/definitions/generic_options"
     }
-  ]
+  ],
+  "properties": {
+    "config_profile_name": {
+      "type": "string"
+    },
+    "config_profile_description": {
+      "type": "string"
+    },
+    "numba_cache": {
+      "type": "string",
+      "default": "numba_tmp"
+    }
+  }
 }
