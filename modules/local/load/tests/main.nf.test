@@ -1,0 +1,33 @@
+nextflow_process {
+
+    name "test loading module"
+    script "modules/local/load/main.nf"
+    process "LOAD_SPATIAL_IR"
+
+    test("should pass loading"){
+        tag "modules"
+        tag "modules_local"
+        tag "load"
+        when {
+            process {
+                """
+                input[0] = [
+                    'pt16', "$baseDir/tests/data/pt16"
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.indexed_bam.get(0).get(1)
+                ).match() },
+                { assert snapshot(
+                    path(process.out.versions.get(0)).yaml
+                ).match() }
+            )
+        }
+    }
+}

@@ -4,9 +4,13 @@
 
 import os
 import circuss as cs
+from circuss.logging import circuss_logger
+
+circuss_logger.setLevel("DEBUG")
 
 PROCESS = "${task.process}"
 PREFIX = "${prefix}"
+
 os.makedirs(PREFIX, exist_ok=True)
 
 n_read_ids = len("$ir_read_ids".split(","))
@@ -18,11 +22,11 @@ if n_pairs < 1:
 
 clonotype_outputs = []
 for clonotype_id in range(n_pairs):
-    clonotype_output = f"{PREFIX}/$sampleid/spatial_ir/clonotype_output/{clonotype_id + 1}"
+    clonotype_output = f"{PREFIX}/clonotype_output/{clonotype_id + 1}"
     clonotype_outputs.append(clonotype_output)
 
 cs.align.run_mixcr(
-    sampleid="$sampleid",
+    sampleid="$meta.id",
     sample_path="$sample_path",
     ir_read_ids="$ir_read_ids",
     ir_fastq_path="$ir_fastq_path",

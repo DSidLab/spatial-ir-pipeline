@@ -7,7 +7,13 @@
   "items": {
     "type": "object",
     "properties": {
-      "sampleid": { "type": "string", "description": "Sample name" },
+      "sampleid": {
+        "type": "string",
+        "description": "Sample name",
+        "pattern": "^\\S+$",
+        "errorMessage": "Sample name must be provided and cannot contain spaces",
+        "meta": ["id"]
+      },
       "sample_path": {
         "type": "string",
         "description": "Path to sample directory",
