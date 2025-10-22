@@ -20,15 +20,15 @@ jobs:
     name: Lint + Format
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      # --- Python linters ---
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-
+          cache: "pip"
       - name: Setup ssh key
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -36,9 +36,8 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_SIDUS }}
             ${{ secrets.SSH_PRIVATE_KEY_CIRCUSS }}
 
-      - name: Install Python linters
-        run: |
-          python -m pip install .[dev]
+      - name: Install Python deps and linters
+        run: pip install .[dev]
 
       # - name: Ruff (lint)
       #   run: ruff check .

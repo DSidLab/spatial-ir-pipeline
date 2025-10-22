@@ -30,3 +30,14 @@ dev = [
 
 [tool.black]
 line-length = 120
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error",
+    'ignore:Importing read_text from `anndata` is deprecated.', # spatialdata io
+    'ignore:pkg_resources is deprecated as an API.', # xarray_schema
+    'ignore:Deprecated call to `pkg_resources.:DeprecationWarning', # xarray_schema
+    'ignore:The legacy Dask DataFrame implementation is deprecated', # spatialdata
+    'ignore:This package has been superseded by the `leidenalg`', # scanpy
+    "ignore: 'mode' parameter is deprecated and will be.", # matplotlib
+]
