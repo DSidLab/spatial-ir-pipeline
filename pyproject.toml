@@ -18,19 +18,19 @@ packages = []
 dev = [
     "cirro",
     "circuss @ git+https://github.com/DSidLab/circuss.git@main",
-    "numpy",
-    "pandas",
     "sidus @ git+https://github.com/AstroPathJHU/sidus.git@main",
-    "urllib"
 ]
 
 test = [
     "black",
     "flake8",
+    "numpy",
+    "pandas",
     "pylint",
     "pytest",
     "pylint-pytest",
     "pre-commit",
+    "urllib"
 ]
 
 [tool.black]

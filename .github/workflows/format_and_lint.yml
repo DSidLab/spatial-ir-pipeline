@@ -38,7 +38,9 @@ jobs:
 
       - name: Install Python deps and linters
         run: |
-          pip install .[dev] --no-deps
+          pip install --no-deps circuss @ git+https://github.com/DSidLab/circuss.git@main
+          pip install --no-deps sidus @ git+https://github.com/AstroPathJHU/sidus.git@main
+          pip install --no-deps cirro
           pip install .[test]
 
       # - name: Ruff (lint)
