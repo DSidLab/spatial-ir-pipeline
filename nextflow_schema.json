@@ -128,11 +128,11 @@
         },
         "custom_config_version": {
             "type": "string",
-            "default": "master"
+            "default": "main"
         },
         "custom_config_base": {
             "type": "string",
-            "default": "https://raw.githubusercontent.com/nf-core/configs/master"
+            "default": "https://raw.githubusercontent.com/nf-core/configs/main"
         },
         "config_profile_contact": {
             "type": "string"

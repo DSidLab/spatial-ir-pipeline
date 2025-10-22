@@ -57,8 +57,11 @@ runs:
     - name: Run nf-test
       shell: bash
       env:
+        MI_LICENSE: ${{ secrets.MI_LICENSE }}
         NFT_WORKDIR: ${{ env.NFT_WORKDIR }}
       run: |
+        nextflow secrets set MI_LICENSE "$MI_LICENSE"
+
         nf-test test \
           --profile=+${{ inputs.profile }} \
           $(if [ -n "${{ inputs.tags }}" ]; then echo "--tag ${{ inputs.tags }}"; fi) \
