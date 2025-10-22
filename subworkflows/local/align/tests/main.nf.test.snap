@@ -1,0 +1,68 @@
+{
+    "test with sample input channel and multiple align sets": {
+        "content": [
+            {
+                "id": "test"
+            },
+            "true",
+            "pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-18T09:22:41.812037593"
+    },
+    "test with multiple samples and different configurations": {
+        "content": [
+            {
+                "id": "test2"
+            },
+            "true",
+            "pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz",
+            {
+                "id": "test3"
+            },
+            "false",
+            "[]",
+            {
+                "id": "test"
+            },
+            "true",
+            "pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-18T09:46:54.402429083"
+    },
+    "test with no alignment requested": {
+        "content": [
+            {
+                "id": "test"
+            },
+            "false",
+            "[]"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-18T09:45:33.339221198"
+    },
+    "test with basic sample input channel": {
+        "content": [
+            {
+                "id": "test"
+            },
+            "true",
+            "pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-18T09:44:09.563784925"
+    }
+}

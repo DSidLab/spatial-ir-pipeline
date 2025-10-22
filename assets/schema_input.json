@@ -1,69 +1,63 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/DSidLab/spatial-ir-pipeline/main/assets/schema_input.json",
-  "title": "dsidlab/spatial ir - params.input schema",
-  "description": "Schema for the file provided with params.input",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "properties": {
-      "sampleid": {
-        "type": "string",
-        "description": "Sample name",
-        "pattern": "^\\S+$",
-        "errorMessage": "Sample name must be provided and cannot contain spaces",
-        "meta": ["id"]
-      },
-      "sample_path": {
-        "type": "string",
-        "description": "Path to sample directory",
-        "format": "directory-path",
-        "exists": true
-      },
-      "spatial_rna": {
-        "type": "string",
-        "description": "Path to spatial RNA data",
-        "format": "directory-path",
-        "exists": true
-      },
-      "cell_annotations": {
-        "type": "string",
-        "description": "Path to cell annotations file",
-        "format": "directory-path",
-        "exists": true
-      },
-      "spatial_ir": {
-        "type": "string",
-        "description": "Path to spatial IR data",
-        "format": "directory-path",
-        "exists": true
-      },
-      "spatial_airr": {
-        "type": "string",
-        "description": "Path to spatial AIRR data",
-        "format": "directory-path",
-        "exists": true
-      },
-      "clonotype_output": {
-        "type": "string",
-        "description": "comma separated list of clonotype output files to process"
-      },
-      "align": {
-        "type": "boolean",
-        "description": "Whether to run alignment with MiXCR",
-        "dependentRequired": { "ir_read_ids": true }
-      },
-      "ir_read_ids": {
-        "type": "string",
-        "description": "Comma separated list of IR read IDs (e.g. fastq or fastq.gz file names)"
-      },
-      "ir_fastq_path": {
-        "type": "string",
-        "description": "Path to directory containing IR fastq files",
-        "format": "directory-path",
-        "exists": true
-      }
-    },
-    "required": ["sampleid", "sample_path"]
-  }
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/DSidLab/spatial-ir-pipeline/main/assets/schema_input.json",
+    "title": "dsidlab/spatial ir - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sampleid": {
+                "type": "string",
+                "description": "Sample name",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "meta": ["id"]
+            },
+            "sample_path": {
+                "type": "string",
+                "description": "Path to sample directory",
+                "format": "directory-path",
+                "exists": true
+            },
+            "spatial_rna": {
+                "type": "string",
+                "description": "Path to spatial RNA data",
+                "format": "directory-path",
+                "exists": true
+            },
+            "cell_annotations": {
+                "type": "string",
+                "description": "Path to cell annotations file",
+                "format": "directory-path",
+                "exists": true
+            },
+            "spatial_ir": {
+                "type": "string",
+                "description": "Path to spatial IR data",
+                "format": "directory-path",
+                "exists": true
+            },
+            "clonotype_output": {
+                "type": "string",
+                "description": "comma separated list of clonotype output files to process"
+            },
+            "align": {
+                "type": "boolean",
+                "description": "Whether to run alignment with MiXCR",
+                "dependentRequired": { "ir_read_ids": true }
+            },
+            "ir_read_ids": {
+                "type": "string",
+                "description": "Comma separated list of IR read IDs (e.g. fastq or fastq.gz file names)"
+            },
+            "ir_fastq_path": {
+                "type": "string",
+                "description": "Path to directory containing IR fastq files",
+                "format": "directory-path",
+                "exists": true
+            }
+        },
+        "required": ["sampleid", "sample_path"]
+    }
 }

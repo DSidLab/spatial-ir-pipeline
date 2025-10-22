@@ -1,0 +1,178 @@
+nextflow_workflow {
+
+    name "test workflow ALIGN"
+    script "../main.nf"
+    workflow "ALIGN"
+    tag "subworkflows"
+    tag "subworkflows_local"
+
+    test("test with basic sample input channel"){
+
+        tag "subworkflows_align"
+        tag "subworkflows_align_basic"
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                        [ id:'test' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        [],
+                        true,
+                        'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                        file("$baseDir/tests/data/pt16/spatial_ir/ir_fastq")
+                    ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        workflow.out.merged.get(0).get(0),
+                        workflow.out.merged.get(0).get(6).toString(),
+                        workflow.out.merged.get(0).get(7).toString()
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("test with sample input channel and multiple align sets"){
+
+        tag "subworkflows_align"
+        tag "subworkflows_align_multi"
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                        [ id:'test' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        [],
+                        true,
+                        'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                        file("$baseDir/tests/data/pt16/spatial_ir/ir_fastq")
+                    ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        workflow.out.merged.get(0).get(0),
+                        workflow.out.merged.get(0).get(6).toString(),
+                        workflow.out.merged.get(0).get(7).toString()
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("test with no alignment requested"){
+
+        tag "subworkflows_align"
+        tag "subworkflows_align_no_align"
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                        [ id:'test' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        '1',
+                        false,
+                        [],
+                        []
+                    ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        workflow.out.merged.get(0).get(0),
+                        workflow.out.merged.get(0).get(6).toString(),
+                        workflow.out.merged.get(0).get(7).toString()
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("test with multiple samples and different configurations"){
+
+        tag "subworkflows_align"
+        tag "subworkflows_align_full_mix"
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        [],
+                        true,
+                        'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                        file("$baseDir/tests/data/pt16/spatial_ir/ir_fastq")
+                    ],
+                    [
+                        [ id:'test2' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        [],
+                        true,
+                        'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                        file("$baseDir/tests/data/pt16/spatial_ir/ir_fastq")
+                    ],
+                    [
+                        [ id:'test3' ],
+                        file("$baseDir/tests/data/pt16"),
+                        [],
+                        [],
+                        [],
+                        '1',
+                        false,
+                        [],
+                        []
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        workflow.out.merged.get(0).get(0),
+                        workflow.out.merged.get(0).get(6).toString(),
+                        workflow.out.merged.get(0).get(7).toString(),
+                        workflow.out.merged.get(1).get(0),
+                        workflow.out.merged.get(1).get(6).toString(),
+                        workflow.out.merged.get(1).get(7).toString(),
+                        workflow.out.merged.get(2).get(0),
+                        workflow.out.merged.get(2).get(6).toString(),
+                        workflow.out.merged.get(2).get(7).toString()
+                    ).match()
+                }
+            )
+        }
+    }
+}

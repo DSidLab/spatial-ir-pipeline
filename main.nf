@@ -7,49 +7,77 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
-
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    VALIDATE & PRINT PARAMETER SUMMARY
+    IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { validateParameters; paramsHelp } from 'plugin/nf-validation'
-
-// Print help message if needed
-if (params.help) {
-    def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-    def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-    def String command = "nextflow run ${workflow.manifest.name} --input samplesheet.csv -profile docker"
-    log.info logo + citation + NfcoreTemplate.dashedLine(params.monochrome_logs) + paramsHelp(command)
-    System.exit(0)
-}
-
-WorkflowMain.initialise(workflow, params, log)
-
-// Validate input parameters
-if (params.validate_params) {
-    validateParameters()
-}
+include { SPATIAL_IR_PIPELINE     } from './workflows/spatial-ir-pipeline'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_spatial-ir-pipeline_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_spatial-ir-pipeline_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN ALL WORKFLOWS
+    RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
-include { SPATIAL_IR } from './workflows/spatial-ir.nf'
-
 
 workflow {
-    SPATIAL_IR ()
-}
+    //
+    // SUBWORKFLOW: Run initialisation tasks
+    //
+    PIPELINE_INITIALISATION(
+        params.version,
+        params.validate_params,
+        params.monochrome_logs,
+        args,
+        params.outdir,
+        params.input,
+    )
 
+    //
+    // WORKFLOW: Run main workflow
+    //
+    DSIDLAB_SPATIAL_IR_PIPELINE(
+        PIPELINE_INITIALISATION.out.samplesheet
+    )
+    //
+    // SUBWORKFLOW: Run completion tasks
+    //
+    PIPELINE_COMPLETION(
+        params.email,
+        params.email_on_fail,
+        params.plaintext_email,
+        params.outdir,
+        params.monochrome_logs,
+        params.hook_url,
+        DSIDLAB_SPATIAL_IR_PIPELINE.out.multiqc_report,
+    )
+}
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
+    NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
+//
+// WORKFLOW: Run main analysis pipeline depending on type of input
+//
+workflow DSIDLAB_SPATIAL_IR_PIPELINE {
+    take:
+    samplesheet // channel: samplesheet read in from --input
+
+    main:
+
+    //
+    // WORKFLOW: Run pipeline
+    //
+    SPATIAL_IR_PIPELINE(
+        samplesheet
+    )
+
+    emit:
+    multiqc_report = SPATIAL_IR_PIPELINE.out.multiqc_report // channel: /path/to/multiqc_report.html
+}

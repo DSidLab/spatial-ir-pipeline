@@ -12,7 +12,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    'pt16', "$baseDir/tests/data/pt16"
+                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", "$baseDir/tests/data/pt15/adata.h5ad"
                 ]
                 """
             }
@@ -22,11 +22,11 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    process.out.indexed_bam.get(0).get(1)
-                ).match() },
-                { assert snapshot(
-                    path(process.out.versions.get(0)).yaml
-                ).match() }
+                        process.out.output_paths,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
             )
         }
     }

@@ -3,12 +3,13 @@ nextflow_process {
     name "test align module"
     script "modules/local/align/main.nf"
     process "ALIGN_MIXCR"
+    tag "modules"
+    tag "modules_local"
+    tag "modules_align"
 
-    test("should pass using dry_run flag"){
-        tag "modules"
-        tag "modules_local"
-        tag "align"
+    test("test with all inputs"){
         tag "mixcr"
+        tag "mixcr_full_input"
         when {
             process {
                 """
@@ -30,6 +31,64 @@ nextflow_process {
                         process.out.versions,
                         path(process.out.versions[0]).yaml
                     ).match()
+                }
+            )
+        }
+    }
+
+    test("test without ir_fastq_path"){
+        tag "mixcr"
+        tag "mixcr_no_ir_fastq_path"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    "$baseDir/tests/data/pt16",
+                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                    ""
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.aligned_paths,
+                    process.out.versions,
+                    path(process.out.versions[0]).yaml
+                ).match()
+                }
+            )
+        }
+    }
+
+    test("test multiple ir_read_id pairs"){
+        tag "mixcr"
+        tag "mixcr_multiple"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    "$baseDir/tests/data/pt16",
+                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                    "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.aligned_paths,
+                    process.out.versions,
+                    path(process.out.versions[0]).yaml
+                ).match()
                 }
             )
         }

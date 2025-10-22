@@ -5,7 +5,6 @@ nextflow_process {
     process "DIVERSITY_SPATIAL_IR"
 
     test("should pass diversity analysis"){
-        tag "spatial-ir"
         tag "modules"
         tag "modules_local"
         tag "diversity"
