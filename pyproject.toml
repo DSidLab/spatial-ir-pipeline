@@ -15,6 +15,9 @@ dependencies = [
     "sidus @ git+https://github.com/AstroPathJHU/sidus.git@main"
 ]
 
+[tool.setuptools]
+packages = []
+
 [project.optional-dependencies]
 dev = [
     "black",
