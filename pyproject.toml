@@ -9,17 +9,22 @@ version = "0.0.0"
 
 
 requires-python = ">=3.10"
-dependencies = [
-    "cirro",
-    "circuss @ git+https://github.com/DSidLab/circuss.git@main",
-    "sidus @ git+https://github.com/AstroPathJHU/sidus.git@main"
-]
+dependencies = []
 
 [tool.setuptools]
 packages = []
 
 [project.optional-dependencies]
 dev = [
+    "cirro",
+    "circuss @ git+https://github.com/DSidLab/circuss.git@main",
+    "numpy",
+    "pandas",
+    "sidus @ git+https://github.com/AstroPathJHU/sidus.git@main",
+    "urllib"
+]
+
+test = [
     "black",
     "flake8",
     "pylint",

@@ -37,7 +37,9 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_CIRCUSS }}
 
       - name: Install Python deps and linters
-        run: pip install .[dev]
+        run: |
+          pip install .[dev] --no-deps
+          pip install .[test]
 
       # - name: Ruff (lint)
       #   run: ruff check .
