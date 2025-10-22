@@ -3,7 +3,10 @@
 """load Visium data"""
 
 import os
+from importlib.metadata import version
+
 import circuss as cs
+from sidus import externals as ext
 
 PROCESS = "${task.process}"
 PREFIX = "${prefix}"
@@ -17,10 +20,22 @@ sdata = cs.io.load_visium(
 )
 # preprocess
 cs.preprocessing.receptor_qc(sdata)
+ext.preprocess(
+    sdata, filter_housekeeping=True
+)  # hb, mito, ribo - if set to false will generate qc stats and will be regressed out in sct
+# ext.sctransform(ir_data)
+ext.basic_scanpy(sdata)
+ext.cluster_leiden(sdata)
+# ext.spagcn(ir_data) # package uses sc.tl.louvian which has been removed
+ext.rank_groups_and_get_dendrogram(sdata)  # , layer = 'data')
+sdata[f"{SAMPLEID}_rna"].uns["leiden"]["params"]["random_state"] = 0
 # add ext methods
+cs.analysis.get_ir_alpha_diversity(sdata, obs_mask=[None, "leiden"])
+#
 sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata_pp.h5ad")
 
 # versions
 with open("versions.yml", "w", encoding="utf-8") as f:
     f.write(f"{PROCESS}:\\n")
-    f.write("    circuss: 0.0.1dev\\n")
+    f.write(f"    circuss: {version('circuss')}\\n")
+    f.write(f"    sidus: {version('sidus')}\\n")

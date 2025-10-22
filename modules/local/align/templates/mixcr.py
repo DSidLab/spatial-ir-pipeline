@@ -3,6 +3,7 @@
 """Align immune receptor sequences using MiXCR"""
 
 import os
+from importlib.metadata import version
 import subprocess
 import re
 
@@ -24,7 +25,6 @@ if n_pairs < 1:
     raise ValueError("At least one pair of IR read IDs must be provided for alignment.")
 
 circuss_logger.debug("ir fastq path: $ir_fastq_path")
-# pylint: disable=comparison-of-constants
 IR_FASTQ_PATH = "$ir_fastq_path" if "$ir_fastq_path" != "" else None
 
 clonotype_outputs = []
@@ -45,5 +45,5 @@ mixcr_version = re.search(r"MiXCR v([0-9.]+)", out, flags=re.IGNORECASE).group(1
 
 with open("versions.yml", "w", encoding="utf-8") as f:
     f.write(f"{PROCESS}:\\n")
-    f.write("  circuss: 0.0.1dev\\n")
+    f.write(f"  circuss: {version('circuss')}\\n")
     f.write(f"  mixcr: {mixcr_version}\\n")

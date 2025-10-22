@@ -3,6 +3,8 @@
 """load Visium data"""
 
 import os
+from importlib.metadata import version
+
 import circuss as cs
 
 PROCESS = "${task.process}"
@@ -21,4 +23,4 @@ sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata.h5ad")
 # versions
 with open("versions.yml", "w", encoding="utf-8") as f:
     f.write(f"{PROCESS}:\\n")
-    f.write("    circuss: 0.0.1dev\\n")
+    f.write(f"    circuss: {version('circuss')}\\n")

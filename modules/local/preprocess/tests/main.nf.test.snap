@@ -6,15 +6,16 @@
                     {
                         "id": "pt15"
                     },
-                    "adata_pp.h5ad:md5,aac42ee3ba98d4d73df0f9e27632038e"
+                    "adata_pp.h5ad:md5,a48b53b6b62a8330c22692a2294e14e2"
                 ]
             ],
             [
-                "versions.yml:md5,4332e444fc521d1c6f2e18806266f63a"
+                "versions.yml:md5,8959f2ee2018b9dc35595137a46422fb"
             ],
             {
                 "PREPROCESS_SPATIAL_IR": {
-                    "circuss": "0.0.1dev"
+                    "circuss": "0+local",
+                    "sidus": "0+local"
                 }
             }
         ],
@@ -22,6 +23,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-22T10:58:55.51074982"
+        "timestamp": "2025-10-22T15:50:10.792362517"
     }
 }
