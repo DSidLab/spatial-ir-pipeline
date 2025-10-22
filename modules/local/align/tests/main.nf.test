@@ -3,9 +3,12 @@ nextflow_process {
     name "test align module"
     script "modules/local/align/main.nf"
     process "ALIGN_MIXCR"
+
     tag "modules"
     tag "modules_local"
     tag "modules_align"
+
+    config "./nextflow.config"
 
     test("test with all inputs"){
         tag "mixcr"
