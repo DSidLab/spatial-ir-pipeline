@@ -1,8 +1,7 @@
 
-
 [build-system]
-requires = ["hatchling>=1.25"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "spatial-ir-pipeline"
@@ -28,7 +27,3 @@ dev = [
 
 [tool.black]
 line-length = 120
-
-
-[tool.hatch.metadata]
-allow-direct-references = true
