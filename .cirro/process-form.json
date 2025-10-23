@@ -4,13 +4,13 @@
         "title": "Spatial Immune Receptor 10X Visium Pipeline",
         "type": "object",
         "properties": {
-            "data": {
-                "title": "Data format options",
+            "run_options": {
+                "title": "Run Options",
                 "type": "object",
                 "properties": {
-                    "hd": {
-                        "type": "string",
-                        "title": "Table name if Visium HD format"
+                    "align": {
+                        "title": "Whether to run alignment with MiXCR",
+                        "type": "boolean"
                     }
                 }
             }
