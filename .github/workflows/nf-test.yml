@@ -23,6 +23,7 @@ env:
   NXF_ANSI_LOG: false
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
   NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
+  ONLY_CHANGED: "false"
 
 jobs:
   nf-test-changes:
@@ -50,7 +51,7 @@ jobs:
           NFT_VER: ${{ env.NFT_VER }}
         with:
           max_shards: 7
-          only_changed: "false"
+          only_changed: ${{ env.ONLY_CHANGED }}
 
       - name: debug
         run: |
@@ -109,6 +110,7 @@ jobs:
           profile: ${{ matrix.profile }}
           shard: ${{ matrix.shard }}
           total_shards: ${{ env.TOTAL_SHARDS }}
+          only_changed: ${{ env.ONLY_CHANGED }}
 
       - name: Report test status
         if: ${{ always() }}
