@@ -1,0 +1,25 @@
+{
+    "should pass plotting": {
+        "content": [
+            [
+                [
+                    "ir_diversity_report.csv:md5,f189f5260e9761b388f83b312c42e938",
+                    "ir_summary_report.csv:md5,e876a0051dd10cc9e5a99e24723bfd1d"
+                ]
+            ],
+            [
+                "versions.yml:md5,8359e43a06814ebf12140902ef4920d8"
+            ],
+            {
+                "IR_SUMMARY": {
+                    "circuss": "0+local"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-23T14:30:32.187802115"
+    }
+}
