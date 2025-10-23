@@ -36,7 +36,7 @@ nextflow_pipeline {
     }
 
     test("Should run successfully") {
-        
+
         tag "valid-run"
         when {
             params {

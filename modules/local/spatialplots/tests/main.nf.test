@@ -4,11 +4,11 @@ nextflow_process {
     script "modules/local/spatialplots/main.nf"
     process "SPATIAL_PLOTS"
 
+    tag "modules"
+    tag "modules_local"
+    tag "spatialplots"
+
     test("should pass plotting"){
-        
-        tag "modules"
-        tag "modules_local"
-        tag "spatialplots"
 
         when {
             process {
