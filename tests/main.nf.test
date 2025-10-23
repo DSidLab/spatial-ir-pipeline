@@ -32,7 +32,7 @@ nextflow_pipeline {
         then {
             assert workflow.failed
             def err = (workflow.errorReport ?: workflow.stderr ?: "NO ERROR MESSAGE").toString()
-            assert err.contains("sample_path: the file or directory 'dummy_path1' does not exist.")
+            assert err.contains("the file or directory 'dummy_path1' does not exist")
         }
 
     }

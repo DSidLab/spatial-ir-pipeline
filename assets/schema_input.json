@@ -44,8 +44,7 @@
             },
             "align": {
                 "type": "boolean",
-                "description": "Whether to run alignment with MiXCR",
-                "dependentRequired": { "ir_read_ids": true }
+                "description": "Whether to run alignment with MiXCR"
             },
             "ir_read_ids": {
                 "type": "string",
@@ -58,6 +57,7 @@
                 "exists": true
             }
         },
-        "required": ["sampleid", "sample_path"]
+        "required": ["sampleid", "sample_path"],
+        "dependentRequired": { "align": ["ir_read_ids"] }
     }
 }
