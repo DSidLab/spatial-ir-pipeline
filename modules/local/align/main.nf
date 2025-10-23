@@ -1,7 +1,7 @@
 process ALIGN_MIXCR {
     tag "${meta.id}"
     label "process_medium"
-    publishDir "${params.outdir}", mode: 'copy', pattern: "${prefix}/clonotype_output/*"
+    publishDir "${params.outdir}", mode: params.publish_dir_mode, pattern: "${prefix}/clonotype_output", enabled: true
     container "ghcr.io/dsidlab/spatial-ir-pipeline:latest"
 
     secret 'MI_LICENSE'
