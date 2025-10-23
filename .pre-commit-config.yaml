@@ -16,11 +16,13 @@ repos:
 
   # Prettier for non-Python text files
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v2.7.1"
+    rev: "v3.1.0"
     hooks:
       - id: prettier
         files: \.(yaml|yml|json|md|toml)$
         language_version: system # Use the system's node
+        additional_dependencies:
+          - prettier@3.6.2
 
   #
   - repo: local
