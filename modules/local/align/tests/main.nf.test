@@ -8,6 +8,8 @@ nextflow_process {
     tag "modules_local"
     tag "modules_align"
 
+    config "conf/test.config"
+
     test("test with all inputs"){
 
         tag "mixcr"

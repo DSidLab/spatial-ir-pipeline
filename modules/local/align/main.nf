@@ -11,6 +11,7 @@ process ALIGN_MIXCR {
 
     script:
     prefix = task.ext.prefix ?: "${meta.id}"
+    println(task.cpus)
     template("mixcr.py")
 
     output:
