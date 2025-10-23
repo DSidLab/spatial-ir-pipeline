@@ -63,7 +63,7 @@ runs:
         nextflow secrets set MI_LICENSE "$MI_LICENSE"
 
         nf-test test \
-          --profile=+${{ inputs.profile }} \
+          --profile=test,+${{ inputs.profile }} \
           $(if [ -n "${{ inputs.tags }}" ]; then echo "--tag ${{ inputs.tags }}"; fi) \
           --ci \
           --changed-since HEAD^ \
