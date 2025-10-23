@@ -6,6 +6,8 @@ nextflow_workflow {
     tag "subworkflows"
     tag "subworkflows_local"
 
+    config "./nextflow.config"
+
     test("test with basic sample input channel"){
 
         tag "subworkflows_align"
