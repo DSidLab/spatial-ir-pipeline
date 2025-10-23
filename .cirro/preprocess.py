@@ -10,10 +10,14 @@ import numpy as np
 import pandas as pd
 from cirro.helpers.preprocess_dataset import PreprocessDataset
 
-SAMPLESHEET_REQUIRED_COLUMNS = (
-    "sample",
-    "data_directory",
-)
+SAMPLESHEET_REQUIRED_COLUMNS = [
+    "sampleid",
+    "sample_path",
+]
+SAMPLESHEET_COLUMNS = [
+    "sampleid",
+    "sample_path",
+]
 
 
 # Helper function to check if a string is a URL
@@ -39,7 +43,7 @@ def set_params_as_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
             samplesheet[colname] = np.nan
 
     for colname in samplesheet.columns:
-        if colname not in SAMPLESHEET_REQUIRED_COLUMNS:
+        if colname not in SAMPLESHEET_COLUMNS:
             del samplesheet[colname]
 
     # Save to a file
@@ -49,7 +53,7 @@ def set_params_as_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     # cleared params will not overload the nextflow.params
     to_remove = []
     for k in ds.params:
-        if k in SAMPLESHEET_REQUIRED_COLUMNS:
+        if k in SAMPLESHEET_COLUMNS:
             to_remove.append(k)
 
     for k in to_remove:
@@ -65,13 +69,12 @@ def df_from_params(params):
     """Create a samplesheet dataframe from params.
     Assumes params["cirro_input"] is a list of dicts with keys "name" and "s3".
     """
-    pipeline_param_names = list(SAMPLESHEET_REQUIRED_COLUMNS)
-    pipeline_params = {k: [params[k]] for k in pipeline_param_names if k in params.keys()}
+    pipeline_params = {k: [params[k]] for k in SAMPLESHEET_COLUMNS if k in params.keys()}
 
     data_params = pd.DataFrame(
         {
-            "sample": [x["name"] for x in params["cirro_input"]],
-            "data_directory": [x["s3"] + "/data" for x in params["cirro_input"]],
+            "sampleid": [x["name"] for x in params["cirro_input"]],
+            "sample_path": [x["s3"] + "/data" for x in params["cirro_input"]],
         }
     )
 
