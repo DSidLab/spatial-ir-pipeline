@@ -46,26 +46,8 @@ jobs:
       # - name: Ruff (lint)
       #   run: ruff check .
 
-      - name: Black (check)
-        run: black --check .
-
-      - name: Pylint (errors only if py files exist)
-        shell: bash
-        run: |
-          PYFILES=$(git ls-files '*.py')
-          if [[ -n "$PYFILES" ]]; then
-            pylint -j 0 --score=n --rcfile=.pylintrc $PYFILES
-          else
-            echo "No Python files to lint."
-          fi
-
-      # --- Prettier (for yaml/json/md/toml/etc.) ---
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Prettier (check)
-        run: npx --yes prettier@3 --check .
+      - name: Run pre-commit
+        run: pre-commit run --all-files
 
       # --- nf-core / Nextflow checks ---
       - uses: actions/setup-java@v4
