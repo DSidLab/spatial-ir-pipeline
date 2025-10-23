@@ -8,7 +8,22 @@ report_section_order:
     order: -1001
   "dsidlab-spatial-ir-pipeline-summary":
     order: -1002
+custom_data:
+  ir_summary:
+    plot_type: "table"
+    section_name: "IR Summary"
+    description: "Summary of the immune receptors in the dataset."
+  ir_diversity:
+    plot_type: "table"
+    section_name: "IR Diversity"
+    description: "Diversity of the immune receptors in the dataset."
 
-export_plots: true
+sp:
+  ir_summary:
+    fn: "ir_summary_report.csv"
+  ir_diversity:
+    fn: "ir_diversity_report.csv"
+
+export_plots: false
 
 disable_version_detection: true

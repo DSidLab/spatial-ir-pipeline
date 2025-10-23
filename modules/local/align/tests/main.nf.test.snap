@@ -10,12 +10,12 @@
                 "test.vdjca"
             ],
             [
-                "versions.yml:md5,487a3a7a0a1df78084e218706101b28b"
+                "versions.yml:md5,9d504ff636e5077531cd6d4b143b30d2"
             ],
             {
                 "ALIGN_MIXCR": {
-                    "circuss": "0+local",
-                    "mixcr": "4.7.0"
+                    "mixcr": "4.7.0",
+                    "circuss": "0+local"
                 }
             }
         ],
@@ -23,7 +23,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T09:51:17.941752371"
+        "timestamp": "2025-10-23T11:01:46.927477964"
     },
     "test multiple ir_read_id pairs": {
         "content": [
@@ -42,12 +42,12 @@
                 "test.vdjca"
             ],
             [
-                "versions.yml:md5,487a3a7a0a1df78084e218706101b28b"
+                "versions.yml:md5,9d504ff636e5077531cd6d4b143b30d2"
             ],
             {
                 "ALIGN_MIXCR": {
-                    "circuss": "0+local",
-                    "mixcr": "4.7.0"
+                    "mixcr": "4.7.0",
+                    "circuss": "0+local"
                 }
             }
         ],
@@ -55,7 +55,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T09:52:38.784257061"
+        "timestamp": "2025-10-23T11:03:12.361557614"
     },
     "test with all inputs": {
         "content": [
@@ -68,12 +68,12 @@
                 "test.vdjca"
             ],
             [
-                "versions.yml:md5,487a3a7a0a1df78084e218706101b28b"
+                "versions.yml:md5,9d504ff636e5077531cd6d4b143b30d2"
             ],
             {
                 "ALIGN_MIXCR": {
-                    "circuss": "0+local",
-                    "mixcr": "4.7.0"
+                    "mixcr": "4.7.0",
+                    "circuss": "0+local"
                 }
             }
         ],
@@ -81,6 +81,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T09:50:31.496792289"
+        "timestamp": "2025-10-23T11:01:01.404150641"
     }
 }

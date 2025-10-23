@@ -6,7 +6,7 @@ nextflow_pipeline {
     tag "pipeline"
 
     test("Should produce an error with invalid sample sheet format") {
-        tag "invalid-sample-format"
+        tag "invalid_sample_format"
         when {
             params {
               input = 'dummy'
@@ -22,7 +22,7 @@ nextflow_pipeline {
     }
 
     test("Should produce an error with invalid sample sheet sample path format") {
-        tag "invalid-sample-path"
+        tag "invalid_sample_path"
         when {
             params {
               input = "$baseDir/tests/data/samples_bad_path.csv"
@@ -33,6 +33,36 @@ nextflow_pipeline {
             assert workflow.failed
             def err = (workflow.errorReport ?: workflow.stderr ?: "NO ERROR MESSAGE").toString()
             assert err.contains("the file or directory 'dummy_path1' does not exist")
+        }
+
+    }
+
+    test("Should run successfully") {
+
+        tag "valid_run"
+        when {
+            params {
+              input = "$baseDir/tests/data/samples.csv"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
+    test("Should run successfully with mixcr") {
+
+        tag "valid_run_with_mixcr"
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_test_mixcr.csv"
+            }
+        }
+
+        then {
+            assert workflow.success
         }
 
     }

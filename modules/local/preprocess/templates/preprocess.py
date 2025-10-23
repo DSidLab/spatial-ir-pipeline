@@ -15,10 +15,17 @@ SAMPLEID = "${meta.id}"
 
 os.makedirs(PREFIX, exist_ok=True)
 SPATIAL_RNA = "$spatial_rna" if "$spatial_rna" != "" else None
-CLN_OUTPUT = "$clonotype_output" if "$clonotype_output" != "" else None
+CLN_OUTPUT = "$clonotype_output" if "$clonotype_output" not in ("", "[]") else "1"
+CELL_ANNS = "$cell_annotations" if "$cell_annotations" != "" else None
+print(CLN_OUTPUT)
+print(SPATIAL_RNA)
 
 sdata = cs.io.load_visium(
-    sampleid=SAMPLEID, sample_path="$sample_path", spatial_rna=SPATIAL_RNA, clonotype_output=CLN_OUTPUT
+    sampleid=SAMPLEID,
+    sample_path="$sample_path",
+    spatial_rna=SPATIAL_RNA,
+    clonotype_output=CLN_OUTPUT,
+    cell_annotations=CELL_ANNS,
 )
 sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata_raw.h5ad")
 # preprocess

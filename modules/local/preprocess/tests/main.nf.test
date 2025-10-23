@@ -7,11 +7,13 @@ nextflow_process {
     tag "modules"
     tag "modules_local"
 
+    tag "preprocess"
+
     config "conf/test.config"
 
     test("should pass preprocessing"){
 
-        tag "preprocess"
+        tag "preprocess_clean"
 
         when {
             params {
@@ -20,7 +22,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", "1"
+                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], "1"
                 ]
                 """
             }
@@ -28,7 +30,41 @@ nextflow_process {
 
         then {
 
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/*.h5ad'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/adata_pp.h5ad','**/adata_raw.h5ad', '**/ir_diversity_data.npy'])
+
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                        stable_out_files*.name,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+
+
+    test("should pass preprocessing without clonotype input"){
+
+        tag "preprocess_no_clonotype"
+
+        when {
+            params {
+                outdir = "$workDir"
+            }
+            process {
+                """
+                input[0] = [
+                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], []
+                ]
+                """
+            }
+        }
+
+        then {
+
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/adata_pp.h5ad','**/adata_raw.h5ad', '**/ir_diversity_data.npy'])
 
             assertAll(
                 { assert process.success },

@@ -3,7 +3,8 @@
         "content": [
             [
                 "adata_pp.h5ad",
-                "adata_raw.h5ad"
+                "adata_raw.h5ad",
+                "ir_diversity_data.npy"
             ],
             [
                 "versions.yml:md5,8959f2ee2018b9dc35595137a46422fb"
@@ -19,6 +20,29 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T09:53:26.268880476"
+        "timestamp": "2025-10-23T14:16:40.818735387"
+    },
+    "should pass preprocessing without clonotype input": {
+        "content": [
+            [
+                "adata_pp.h5ad",
+                "adata_raw.h5ad",
+                "ir_diversity_data.npy"
+            ],
+            [
+                "versions.yml:md5,8959f2ee2018b9dc35595137a46422fb"
+            ],
+            {
+                "PREPROCESS_SPATIAL_IR": {
+                    "circuss": "0+local",
+                    "sidus": "0+local"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-23T14:20:27.729229106"
     }
 }

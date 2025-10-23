@@ -65,13 +65,13 @@ workflow PIPELINE_INITIALISATION {
     //
     // Custom validation for pipeline parameters
     //
-    validateInputParameters()
+    // validateInputParameters()
 
     //
     // Create channel from input file provided through params.input
     //
 
-    Channel.fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
+    Channel.fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
         .set { ch_samplesheet }
 
     emit:

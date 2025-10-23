@@ -87,7 +87,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'test' ],
+                    [ id:'test'],
                     "$baseDir/tests/data/pt16",
                     'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
                     "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"

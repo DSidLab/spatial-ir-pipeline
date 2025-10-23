@@ -45,5 +45,5 @@ mixcr_version = re.search(r"MiXCR v([0-9.]+)", out, flags=re.IGNORECASE).group(1
 
 with open("versions.yml", "w", encoding="utf-8") as f:
     f.write(f"{PROCESS}:\\n")
-    f.write(f"  circuss: {version('circuss')}\\n")
     f.write(f"  mixcr: {mixcr_version}\\n")
+    f.write(f"  circuss: {version('circuss')}\\n")
