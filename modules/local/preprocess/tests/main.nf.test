@@ -15,7 +15,7 @@ nextflow_process {
 
         when {
             params {
-                outdir = "$outputDir"
+                outdir = "$workDir"
             }
             process {
                 """
@@ -27,10 +27,13 @@ nextflow_process {
         }
 
         then {
+
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/*.h5ad'])
+
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                        process.out.output_paths,
+                        stable_out_files*.name,
                         process.out.versions,
                         path(process.out.versions[0]).yaml
                     ).match()

@@ -2,13 +2,8 @@
     "should pass preprocessing": {
         "content": [
             [
-                [
-                    {
-                        "id": "pt15"
-                    },
-                    "adata_raw.h5ad:md5,4f4c3cdbea4c74bd09b98102763e8cb2",
-                    "adata_pp.h5ad:md5,5d08ed963435beb9ce95e8e9a7e7edfb"
-                ]
+                "adata_pp.h5ad",
+                "adata_raw.h5ad"
             ],
             [
                 "versions.yml:md5,8959f2ee2018b9dc35595137a46422fb"
@@ -24,6 +19,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T05:02:06.171597119"
+        "timestamp": "2025-10-23T09:53:26.268880476"
     }
 }
