@@ -13,6 +13,7 @@ nextflow_workflow {
 
         tag "subworkflows_align"
         tag "subworkflows_align_basic"
+
         when {
             workflow {
                 """
