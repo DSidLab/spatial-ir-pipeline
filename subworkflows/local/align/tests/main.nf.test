@@ -3,6 +3,7 @@ nextflow_workflow {
     name "test workflow ALIGN"
     script "../main.nf"
     workflow "ALIGN"
+
     tag "subworkflows"
     tag "subworkflows_local"
 
