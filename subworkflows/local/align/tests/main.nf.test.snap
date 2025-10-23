@@ -1,14 +1,14 @@
 {
     "test with sample input channel and multiple align sets": {
         "content": [
-            "/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/2bdce7c65dbac10eb2612944a4ff4b30/work/e9/6fc25f152a720e458ee5745c084df6/test/clonotype_output/2,/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/2bdce7c65dbac10eb2612944a4ff4b30/work/e9/6fc25f152a720e458ee5745c084df6/test/clonotype_output/1",
+            "/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/2bdce7c65dbac10eb2612944a4ff4b30/work/b2/3de0952e3e5ee1332c55e74e50dc7f/test/clonotype_output/2,/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/2bdce7c65dbac10eb2612944a4ff4b30/work/b2/3de0952e3e5ee1332c55e74e50dc7f/test/clonotype_output/1",
             [
+                "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
                 "versions.yml:md5,e5d3598a2478692c1e4872e0fcdc9e16"
             ],
             {
-                "ALIGN:ALIGN_MIXCR": {
-                    "mixcr": "4.7.0",
-                    "circuss": "0+local"
+                "ALIGN:FASTQC": {
+                    "fastqc": "0.12.1"
                 }
             }
         ],
@@ -16,7 +16,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T13:51:36.498395326"
+        "timestamp": "2025-10-23T15:27:18.898389631"
     },
     "test with multiple samples and different configurations": {
         "content": [
@@ -30,15 +30,16 @@
             ],
             "1",
             "[]",
-            "/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/e9/fbc5f037a1d64a43cd0f90383284fc/test/clonotype_output/1,/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/e9/fbc5f037a1d64a43cd0f90383284fc/test/clonotype_output/2",
+            "/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/5f/ba4dd102cb1a867281e84a7d9fb106/test/clonotype_output/2,/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/5f/ba4dd102cb1a867281e84a7d9fb106/test/clonotype_output/1",
             [
+                "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
+                "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
                 "versions.yml:md5,e5d3598a2478692c1e4872e0fcdc9e16",
                 "versions.yml:md5,e5d3598a2478692c1e4872e0fcdc9e16"
             ],
             {
-                "ALIGN:ALIGN_MIXCR": {
-                    "mixcr": "4.7.0",
-                    "circuss": "0+local"
+                "ALIGN:FASTQC": {
+                    "fastqc": "0.12.1"
                 }
             }
         ],
@@ -46,7 +47,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T13:53:02.431990325"
+        "timestamp": "2025-10-23T15:28:46.122311465"
     },
     "test with no alignment requested": {
         "content": [
@@ -56,7 +57,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T14:03:54.466985018"
+        "timestamp": "2025-10-23T15:27:22.594082873"
     },
     "test with basic sample input channel": {
         "content": [
@@ -69,12 +70,12 @@
                 "test.vdjca"
             ],
             [
+                "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
                 "versions.yml:md5,e5d3598a2478692c1e4872e0fcdc9e16"
             ],
             {
-                "ALIGN:ALIGN_MIXCR": {
-                    "mixcr": "4.7.0",
-                    "circuss": "0+local"
+                "ALIGN:FASTQC": {
+                    "fastqc": "0.12.1"
                 }
             }
         ],
@@ -82,6 +83,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-23T13:50:16.088772725"
+        "timestamp": "2025-10-23T15:24:44.192903943"
     }
 }

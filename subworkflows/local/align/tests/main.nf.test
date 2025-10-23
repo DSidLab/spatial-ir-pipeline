@@ -15,6 +15,7 @@ nextflow_workflow {
         tag "subworkflows_align_basic"
 
         when {
+
             workflow {
                 """
                 input[0] = Channel.of([
@@ -51,6 +52,9 @@ nextflow_workflow {
         tag "subworkflows_align_multi"
 
         when {
+            params {
+                outdir = "$workDir"
+            }
             workflow {
                 """
                 input[0] = Channel.of([
@@ -66,10 +70,13 @@ nextflow_workflow {
         }
 
         then {
+
+            def stable_work_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*', '**/*fastq.gz'], null, ['*', '**/*'])
+
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        workflow.out.merged.get(0).get(1).toString(),
+                        stable_work_files*.name,
                         workflow.out.versions,
                         path(workflow.out.versions[0]).yaml
                     ).match()
@@ -117,6 +124,9 @@ nextflow_workflow {
         tag "subworkflows_align_full_mix"
 
         when {
+            params {
+                outdir = "$workDir"
+            }
             workflow {
                 """
                 input[0] = Channel.of(
@@ -159,13 +169,12 @@ nextflow_workflow {
 
         then {
 
-            def stable_work_files = getAllFilesFromDir(workflow.out.merged.get(0).get(1), false, ['**/*fastq.gz'], null, ['*', '**/*'])
+            def stable_work_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*', '**/*fastq.gz'], null, ['*', '**/*'])
 
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
                         stable_work_files*.name,
-                        workflow.out.merged.get(1).get(1).toString(),
                         workflow.out.merged.get(2).get(1).toString(),
                         workflow.out.merged.get(3).get(1).toString(),
                         workflow.out.versions,

@@ -5,6 +5,8 @@ nextflow_pipeline {
 
     tag "pipeline"
 
+    config "conf/test.config"
+
     test("Should produce an error with invalid sample sheet format") {
         tag "invalid_sample_format"
         when {
@@ -58,6 +60,21 @@ nextflow_pipeline {
         when {
             params {
               input = "$baseDir/tests/data/samples_test_mixcr.csv"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
+    test("Should run successfully with samples needing and not needing alignment") {
+
+        tag "valid_run_full"
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_full.csv"
             }
         }
 

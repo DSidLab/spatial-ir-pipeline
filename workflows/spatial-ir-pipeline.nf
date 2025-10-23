@@ -31,6 +31,9 @@ workflow SPATIAL_IR_PIPELINE {
     //
     ALIGN(ch_samplesheet.map { tuple(it[0], it[1], it[5], it[6], it[7], it[8]) })
     //
+    ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.ch_fastqc)
+    ch_versions = ch_versions.mix(ALIGN.out.versions)
+    //
     // MODULE: RUN PREPROCESS
     //
     ch_samples = ch_samplesheet.map { tuple(it[0], it[1], it[2], it[3]) }

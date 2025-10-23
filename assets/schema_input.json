@@ -57,7 +57,6 @@
                 "exists": true
             }
         },
-        "required": ["sampleid", "sample_path"],
-        "dependentRequired": { "align": ["ir_read_ids"] }
+        "required": ["sampleid", "sample_path"]
     }
 }
