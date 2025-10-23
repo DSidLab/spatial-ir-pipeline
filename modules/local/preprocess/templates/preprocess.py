@@ -32,7 +32,7 @@ ext.cluster_leiden(sdata)
 ext.rank_groups_and_get_dendrogram(sdata)  # , layer = 'data')
 sdata[f"{SAMPLEID}_rna"].uns["leiden"]["params"]["random_state"] = 0
 # add ext methods
-cs.analysis.get_ir_alpha_diversity(sdata, obs_mask="leiden")
+# cs.analysis.get_ir_alpha_diversity(sdata, obs_mask="leiden")
 #
 sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata_pp.h5ad")
 

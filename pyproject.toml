@@ -29,8 +29,7 @@ test = [
     "pylint",
     "pytest",
     "pylint-pytest",
-    "pre-commit",
-    "urllib"
+    "pre-commit"
 ]
 
 [tool.black]
