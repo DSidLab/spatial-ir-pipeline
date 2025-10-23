@@ -1,0 +1,19 @@
+{
+    "should pass plotting": {
+        "content": [
+            [
+                "versions.yml:md5,7c52f4c758dace39a061acde35133a73"
+            ],
+            {
+                "SPATIAL_PLOTS": {
+                    "circuss": "0+local"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-10-23T05:09:49.008111141"
+    }
+}

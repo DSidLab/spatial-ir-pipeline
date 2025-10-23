@@ -5,13 +5,18 @@ Generate spatial plots for IR data
 """
 
 import os
+from importlib.metadata import version
 
 # import circuss as cs
 
-os.makedirs("${prefix}", exist_ok=True)
+
 PROCESS = "${task.process}"
+PREFIX = "${prefix}"
+SAMPLEID = "${meta.id}"
+
+os.makedirs(PREFIX, exist_ok=True)
 
 # versions
 with open("versions.yml", "w", encoding="utf-8") as f:
     f.write(f"{PROCESS}:\\n")
-    f.write("    circuss: 0.0.1dev\\n")
+    f.write(f"    circuss: {version('circuss')}\\n")

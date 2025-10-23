@@ -7,7 +7,7 @@ nextflow_workflow {
     tag "subworkflows"
     tag "subworkflows_local"
 
-    config "./nextflow.config"
+    config "conf/test.config"
 
     test("test with basic sample input channel"){
 
@@ -49,6 +49,7 @@ nextflow_workflow {
 
         tag "subworkflows_align"
         tag "subworkflows_align_multi"
+
         when {
             workflow {
                 """
@@ -84,6 +85,7 @@ nextflow_workflow {
 
         tag "subworkflows_align"
         tag "subworkflows_align_no_align"
+
         when {
             workflow {
                 """
@@ -119,6 +121,7 @@ nextflow_workflow {
 
         tag "subworkflows_align"
         tag "subworkflows_align_full_mix"
+
         when {
             workflow {
                 """

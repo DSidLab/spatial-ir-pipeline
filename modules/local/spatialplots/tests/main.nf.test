@@ -1,20 +1,23 @@
 nextflow_process {
 
     name "test spatial plotting module"
-    script "modules/local/spatialplots/main.nf"
+    script "../main.nf"
     process "SPATIAL_PLOTS"
 
     tag "modules"
     tag "modules_local"
-    tag "spatialplots"
+
+    config "conf/test.config"
 
     test("should pass plotting"){
+
+        tag "spatialplots"
 
         when {
             process {
                 """
                 input[0] = [
-                    'pt16', "$baseDir/tests/data/pt16"
+                    [ id:'pt15' ], "$baseDir/tests/data/pt15"
                 ]
                 """
             }
@@ -23,12 +26,11 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(
-                    process.out.indexed_bam.get(0).get(1)
-                ).match() },
-                { assert snapshot(
-                    path(process.out.versions.get(0)).yaml
-                ).match() }
+                { assert snapshot( // process.out.output_paths,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
             )
         }
     }
