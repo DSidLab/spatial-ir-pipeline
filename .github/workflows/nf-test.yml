@@ -98,7 +98,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}  # OK for same-org packages
 
       - name: Pull image
-        run: docker pull ghcr.io/DSidLab/spatial-ir-pipeline:latest
+        run: docker pull ghcr.io/dsidlab/spatial-ir-pipeline:latest
 
       - name: Run nf-test
         id: run_nf_test
