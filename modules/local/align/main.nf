@@ -11,7 +11,7 @@ process ALIGN_MIXCR {
 
     script:
     prefix = task.ext.prefix ?: "${meta.id}"
-    template('mixcr.py')
+    template("mixcr.py")
 
     output:
     tuple val(meta), file("${prefix}/clonotype_output"), emit: aligned_paths
