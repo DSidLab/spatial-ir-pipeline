@@ -5,7 +5,6 @@ Preprocess script for spatial-ir-pipeline
 
 # adapted from btc/spatial
 from pathlib import Path
-from urllib.parse import urlparse
 
 from cirro.helpers.preprocess_dataset import PreprocessDataset
 import numpy as np
@@ -17,15 +16,6 @@ SAMPLESHEET_REQUIRED_COLUMNS = [
     "sample_path",
 ]
 SAMPLESHEET_COLUMNS = ["sampleid", "sample_path", "align"]
-
-
-def is_url(string):
-    """Helper function to check if a string is a URL."""
-    try:
-        result = urlparse(string)
-        return all([result.scheme, result.netloc])
-    except ValueError:
-        return False
 
 
 def get_sample_paths(ds):
@@ -53,19 +43,11 @@ def get_sample_paths(ds):
         lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
     )
     files = ds.files[["sample", "sample_path"]]
-
+    #
+    ds.logger.info("Sample paths derived from dataset files:\n%s", files["sample_path"].to_list())
+    ds.logger.info("Samples:\n%s", files["sample"].to_list())
+    #
     return pd.merge(ds.samplesheet, files, on="sample", how="left")
-
-
-def samplesheet_from_params(params):
-    """Create a samplesheet dataframe from params."""
-
-    return pd.DataFrame(
-        {
-            "sample": [x["name"] for x in params["cirro_input"]],
-            "sample_path": [x["s3"] for x in params["cirro_input"]],
-        }
-    )
 
 
 def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
@@ -73,12 +55,11 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     Assumes ds.params["cirro_input"] is a list of dicts with keys "name" and "s3".
     """
     ds.logger.info([ds.params])
-
-    pipeline_params = {k: [ds.params[k]] for k in SAMPLESHEET_COLUMNS if k in ds.params.keys()}
-
     samplesheet = get_sample_paths(ds)
-
-    samplesheet = samplesheet.join(pd.DataFrame(pipeline_params), how="cross")
+    #
+    for k in SAMPLESHEET_COLUMNS:
+        if k in ds.params.keys():
+            samplesheet[k] = ds.params[k]
 
     # check is pipeline uses Cirro samplesheet, and if not prepare it from params
     if samplesheet.empty:
@@ -100,7 +81,7 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     # cleared params will not overload the nextflow.params
     to_remove = []
     for k in ds.params:
-        if k in SAMPLESHEET_COLUMNS:
+        if k in samplesheet.columns:
             to_remove.append(k)
 
     for k in to_remove:
