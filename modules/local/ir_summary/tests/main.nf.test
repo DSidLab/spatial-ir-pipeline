@@ -22,7 +22,7 @@ nextflow_process {
         }
     }
 
-    test("should pass plotting"){
+    test("should pass summary"){
 
         tag "ir_summary"
 

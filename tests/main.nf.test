@@ -1,6 +1,6 @@
 nextflow_pipeline {
 
-    name "sample sheet format"
+    name "spatial-ir-pipeline Tests"
     script "main.nf"
 
     tag "pipeline"

@@ -3,7 +3,7 @@
 Preprocess script for spatial-ir-pipeline
 """
 
-# From btc/spatial
+# adapted from btc/spatial
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -28,22 +28,33 @@ def is_url(string):
         return False
 
 
-def samplesheet_from_files(params, ds):
+def get_sample_paths(ds):
     """Create a samplesheet dataframe.
     Assumes params["cirro_input"] is a list of dicts with keys "name" and "s3".
     """
-    pipeline_params = {k: [params[k]] for k in SAMPLESHEET_COLUMNS if k in params.keys()}
+    if ds.files.empty:
+        ds.logger.warning("No files found. Preparing samplesheet from dataset paths.")
+        return pd.DataFrame(
+            {
+                "sample": [x["name"] for x in ds.params["cirro_input"]],
+                "sample_path": [x["s3"] for x in ds.params["cirro_input"]],
+            }
+        )
+    #
+    # check if path from samplesheet is a directory or a file
+    # if its a file (why didnt people just use "."?)
+    #   it associates sample with a file in the sample's root directory
+    #   Convert s3 link to PosixPath and derive parent; convert back into string
+    #   Path converts s3:// to s3:/, so revert proper s3 prefix afterwards
+    # if directory
+    #   and the directory name is the same as sample name
+    #   then we can use that directory as sample_path
+    ds.files["sample_path"] = ds.files["file"].apply(
+        lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
+    )
+    files = ds.files[["sample", "sample_path"]]
 
-    files = ds.files
-
-    # Assumes samplesheet associates sample with a file in the sample's root directory
-    # Convert s3 link to PosixPath and derive parent; convert back into string
-    # Path converts s3:// to s3:/, so revert proper s3 prefix afterwards
-    files["sample_path"] = files["file"].apply(lambda x: str(Path(x).parent).replace("s3:/", "s3://"))
-    files = files[["sample", "sample_path"]]
-
-    data_params = pd.merge(ds.samplesheet, files, on="sample", how="left")
-    return data_params.join(pd.DataFrame(pipeline_params), how="cross")
+    return pd.merge(ds.samplesheet, files, on="sample", how="left")
 
 
 def samplesheet_from_params(params):
@@ -52,7 +63,7 @@ def samplesheet_from_params(params):
     return pd.DataFrame(
         {
             "sample": [x["name"] for x in params["cirro_input"]],
-            "data_directory": [x["s3"] + "/data" for x in params["cirro_input"]],
+            "sample_path": [x["s3"] for x in params["cirro_input"]],
         }
     )
 
@@ -63,15 +74,15 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     """
     ds.logger.info([ds.params])
 
-    samplesheet = samplesheet_from_files(ds.params, ds)
+    pipeline_params = {k: [ds.params[k]] for k in SAMPLESHEET_COLUMNS if k in ds.params.keys()}
+
+    samplesheet = get_sample_paths(ds)
+
+    samplesheet = samplesheet.join(pd.DataFrame(pipeline_params), how="cross")
 
     # check is pipeline uses Cirro samplesheet, and if not prepare it from params
     if samplesheet.empty:
-        ds.logger.warning("No files found in dataset. Preparing samplesheet from params.")
-        samplesheet = samplesheet_from_params(ds.params)
-        if samplesheet.empty:
-            raise ValueError("No files found in dataset and unable to prepare samplesheet from params.")
-        ds.logger.info("Prepared samplesheet from params.")
+        raise ValueError("No files found in dataset and unable to prepare samplesheet from params.")
 
     for colname in SAMPLESHEET_REQUIRED_COLUMNS:
         if colname not in samplesheet.columns:
@@ -110,6 +121,7 @@ def main():
     # log
     ds.logger.info(ds.params)
     print(ds.params)
+    raise SystemExit(0)
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools]
-packages = []
+packages = ["bin.spatial_ir"]
 
 [project.optional-dependencies]
 dev = [
@@ -25,6 +25,7 @@ test = [
     "black",
     "flake8",
     "numpy",
+    "multiqc",
     "pandas",
     "pylint",
     "pytest",
@@ -45,3 +46,6 @@ filterwarnings = [
     'ignore:This package has been superseded by the `leidenalg`', # scanpy
     "ignore: 'mode' parameter is deprecated and will be.", # matplotlib
 ]
+
+[project.entry-points."multiqc.modules.v1"]
+spatial_ir = "bin.spatial_ir:MultiqcModule"

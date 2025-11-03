@@ -128,6 +128,7 @@ jobs:
           fi
 
   confirm-pass:
+    name: Confirm passed
     needs: [nf-test]
     if: always()
     runs-on: # use GitHub runners

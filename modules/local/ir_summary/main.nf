@@ -11,6 +11,6 @@ process IR_SUMMARY {
     template('ir_summary.py')
 
     output:
-    path "${prefix}/outs/*report.csv", emit: report
+    path "${prefix}/outs/*report.json", emit: report
     path "versions.yml", emit: versions
 }

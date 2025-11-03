@@ -17,8 +17,6 @@ os.makedirs(PREFIX, exist_ok=True)
 SPATIAL_RNA = "$spatial_rna" if "$spatial_rna" != "" else None
 CLN_OUTPUT = "$clonotype_output" if "$clonotype_output" not in ("", "[]") else "1"
 CELL_ANNS = "$cell_annotations" if "$cell_annotations" != "" else None
-print(CLN_OUTPUT)
-print(SPATIAL_RNA)
 
 sdata = cs.io.load_visium(
     sampleid=SAMPLEID,
@@ -29,7 +27,7 @@ sdata = cs.io.load_visium(
 )
 sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata_raw.h5ad")
 # preprocess
-cs.preprocessing.receptor_qc(sdata)
+cs.preprocessing.receptor_qc(sdata, count_receptors_types=True)
 ext.preprocess(sdata, filter_housekeeping=True)  # hb, mito, ribo - if set to false will generate qc stats
 # ext.sctransform(ir_data)
 ext.basic_scanpy(sdata)
@@ -38,7 +36,7 @@ ext.cluster_leiden(sdata)
 ext.rank_groups_and_get_dendrogram(sdata)  # , layer = 'data')
 sdata[f"{SAMPLEID}_rna"].uns["leiden"]["params"]["random_state"] = 0
 # add ext methods
-cs.analysis.get_ir_alpha_diversity(sdata, obs_mask="leiden")
+cs.analysis.get_ir_alpha_diversity(sdata, obs_mask=[None, "leiden"])
 # save ir diversity (recarry doesn't serialize)
 np.save(f"{PREFIX}/ir_diversity_data.npy", sdata[f"{SAMPLEID}_rna"].uns["ir_diversity"])
 del sdata[f"{SAMPLEID}_rna"].uns["ir_diversity"]

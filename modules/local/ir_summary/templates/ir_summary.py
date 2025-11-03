@@ -31,7 +31,6 @@ adata = sdata[f"{SAMPLEID}_rna"]
 # generate ir summary
 report = pd.DataFrame(
     {
-        "Sample": [SAMPLEID],
         "n_genes": adata.shape[1],
         "n_cells": adata.shape[0],
         "mean_genes_by_counts": adata.obs["n_genes_by_counts"].mean(),
@@ -39,9 +38,10 @@ report = pd.DataFrame(
         "mean_total_nnz_counts": adata.layers["counts"][adata.layers["counts"].nonzero()].mean(),
         "mean_unique_irs_by_counts": adata.obs["n_IR_by_obs"].mean(),
         "mean_total_irs_by_counts": adata.obs["total_IR_by_obs"].mean(),
-    }
+    },
+    index=[SAMPLEID],
 )
-report.to_csv(f"{PREFIX}/outs/ir_summary_report.csv", index=False)
+report.to_json(f"{PREFIX}/outs/ir_summary_report.json", orient="index")
 
 # save diversity report
 diversity_report = pd.DataFrame.from_records(adata.uns["ir_diversity"])
@@ -49,7 +49,7 @@ diversity_report.insert(loc=0, column="Sample", value=SAMPLEID)
 diversity_report["chao1_ci"] = diversity_report["chao1_ci"].apply(
     lambda v: str(v) if isinstance(v, int) else f"{round(v[0])}-{round(v[1])}"
 )
-diversity_report.to_csv(f"{PREFIX}/outs/ir_diversity_report.csv", index=False)
+diversity_report.to_json(f"{PREFIX}/outs/ir_diversity_report.json", orient="columns")
 
 # versions
 with open("versions.yml", "w", encoding="utf-8") as f:
