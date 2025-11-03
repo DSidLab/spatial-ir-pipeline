@@ -26,7 +26,7 @@ def get_sample_paths(ds):
         ds.logger.warning("No files found. Preparing samplesheet from dataset paths.")
         return pd.DataFrame(
             {
-                "sample": [x["name"] for x in ds.params["cirro_input"]],
+                "sampleid": [x["name"] for x in ds.params["cirro_input"]],
                 "sample_path": [x["s3"] for x in ds.params["cirro_input"]],
             }
         )
@@ -42,19 +42,22 @@ def get_sample_paths(ds):
     ds.files["sample_path"] = ds.files["file"].apply(
         lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
     )
-    files = ds.files[["sample", "sample_path"]]
+    ds.files["sampleid"] = ds.files["sample"]
     #
-    ds.logger.info("Sample paths derived from dataset files:\n%s", files["sample_path"].to_list())
-    ds.logger.info("Samples:\n%s", files["sample"].to_list())
+    ds.logger.info("Sample paths derived from dataset files:\n%s", ds.files["sample_path"].to_list())
+    ds.logger.info("Samples:\n%s", ds.files["sampleid"].to_list())
     #
-    return pd.merge(ds.samplesheet, files, on="sample", how="left")
+    return pd.merge(ds.samplesheet, ds.files, on="sampleid", how="left")
 
 
 def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     """Set params as samplesheet.
     Assumes ds.params["cirro_input"] is a list of dicts with keys "name" and "s3".
     """
-    ds.logger.info([ds.params])
+    ds.logger.info("params: %s", ds.params)
+    ds.logger.info("files: %s", ds.files)
+    ds.logger.info("samplesheet: %s", ds.samplesheet)
+    #
     samplesheet = get_sample_paths(ds)
     #
     for k in SAMPLESHEET_COLUMNS:
