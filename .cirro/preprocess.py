@@ -44,10 +44,12 @@ def get_sample_paths(ds):
     )
     ds.files["sampleid"] = ds.files["sample"]
     #
-    ds.logger.info("Sample paths derived from dataset files:\n%s", ds.files["sample_path"].to_list())
-    ds.logger.info("Samples:\n%s", ds.files["sampleid"].to_list())
+    ds.logger.info("Sample paths derived from dataset files")
+    ds.logger.info("files: \n%s", ds.files["file"].to_list())
+    ds.logger.info("sample paths:\n%s", ds.files["sample_path"].to_list())
+    ds.logger.info("samples:\n%s", ds.files["sampleid"].to_list())
     #
-    return pd.merge(ds.samplesheet, ds.files, on="sampleid", how="left")
+    return pd.merge(ds.samplesheet, ds.files, on="sample", how="left")
 
 
 def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
