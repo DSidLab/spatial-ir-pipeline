@@ -32,16 +32,23 @@ def get_sample_paths(ds):
         )
     #
     # check if path from samplesheet is a directory or a file
-    # if its a file (why didnt people just use "."?)
+    # if its a file (why not just use "."?)
     #   it associates sample with a file in the sample's root directory
     #   Convert s3 link to PosixPath and derive parent; convert back into string
     #   Path converts s3:// to s3:/, so revert proper s3 prefix afterwards
     # if directory
     #   and the directory name is the same as sample name
     #   then we can use that directory as sample_path
-    ds.files["sample_path"] = ds.files["file"].apply(
-        lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
-    )
+    # ds.files["sample_path"] = ds.files["file"].apply(
+    #    lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
+    # )
+    file1 = ds.files["file"].to_list()[0]
+
+    ds.logger.info("exists %s: %s", file1, Path(file1).exists())
+    ds.logger.info("is dir %s: %s", file1, Path(file1).is_dir())
+    ds.logger.info("is file %s: %s", file1, Path(file1).is_file())
+
+    ds.files["sample_path"] = ds.files["file"]
     ds.files["sampleid"] = ds.files["sample"]
     #
     ds.logger.info("Sample paths derived from dataset files")
