@@ -47,6 +47,9 @@ jobs:
       # - name: Ruff (lint)
       #   run: ruff check .
 
+      - name: Run cirro preprocessing script unit tests
+        run: python -m unittest discover -s .cirro -p '*_test.py'
+
       - name: Run pre-commit
         run: pre-commit run --all-files
 

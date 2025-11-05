@@ -18,45 +18,59 @@ SAMPLESHEET_REQUIRED_COLUMNS = [
 SAMPLESHEET_COLUMNS = ["sampleid", "sample_path", "align"]
 
 
-def get_sample_paths(ds):
-    """Create a samplesheet dataframe.
-    Assumes params["cirro_input"] is a list of dicts with keys "name" and "s3".
+def get_sample_paths(samples, files, logger=None) -> pd.DataFrame:
     """
-    if ds.files.empty:
-        ds.logger.warning("No files found. Preparing samplesheet from dataset paths.")
-        return pd.DataFrame(
-            {
-                "sampleid": [x["name"] for x in ds.params["cirro_input"]],
-                "sample_path": [x["s3"] for x in ds.params["cirro_input"]],
-            }
-        )
+    Create a samplesheet dataframe.
+    """
     #
-    # check if path from samplesheet is a directory or a file
-    # if its a file (why not just use "."?)
-    #   it associates sample with a file in the sample's root directory
-    #   Convert s3 link to PosixPath and derive parent; convert back into string
-    #   Path converts s3:// to s3:/, so revert proper s3 prefix afterwards
-    # if directory
-    #   and the directory name is the same as sample name
-    #   then we can use that directory as sample_path
-    # ds.files["sample_path"] = ds.files["file"].apply(
-    #    lambda x: x if Path(x).is_dir() else str(Path(x).parent).replace("s3:/", "s3://")
-    # )
-    file1 = ds.files["file"].to_list()[0]
-
-    ds.logger.info("exists %s: %s", file1, Path(file1).exists())
-    ds.logger.info("is dir %s: %s", file1, Path(file1).is_dir())
-    ds.logger.info("is file %s: %s", file1, Path(file1).is_file())
-
-    ds.files["sample_path"] = ds.files["file"]
-    ds.files["sampleid"] = ds.files["sample"]
+    fastq_files = files[files["file"].str.contains(".fastq.gz")]
+    fastq_files = (
+        fastq_files.assign(pos=fastq_files.groupby("sample").cumcount())
+        .pivot(index="sample", columns="pos", values="file")
+        .rename(columns=lambda i: f"file_{i}")
+        .reset_index()
+    )
     #
-    ds.logger.info("Sample paths derived from dataset files")
-    ds.logger.info("files: \n%s", ds.files["file"].to_list())
-    ds.logger.info("sample paths:\n%s", ds.files["sample_path"].to_list())
-    ds.logger.info("samples:\n%s", ds.files["sampleid"].to_list())
+    fastq_columns = fastq_files.columns.tolist()
+    fastq_columns.remove("sample")
+    fastq_files["ir_fastq_path"] = fastq_files[fastq_columns[0]].apply(
+        lambda x: str(Path(x).parent).replace("s3:/", "s3://")
+    )
     #
-    return pd.merge(ds.samplesheet, ds.files, on="sample", how="left")
+    fastq_files["ir_read_ids"] = (
+        fastq_files[fastq_columns]
+        .map(lambda p: Path(str(p)).name)
+        .apply(lambda row: ",".join(x for x in row if x), axis=1)
+    )
+    fastq_files.drop(columns=fastq_columns, inplace=True)
+    #
+    sample_rna = files.loc[files["file"].str.contains(".h5")].copy()
+    sample_rna["spatial_rna"] = sample_rna["file"].apply(lambda x: str(Path(x).parent).replace("s3:/", "s3://"))
+    sample_rna["sample_path"] = sample_rna["spatial_rna"].apply(lambda x: str(Path(x).parent).replace("s3:/", "s3://"))
+    cols_to_drop = [col for col in sample_rna.columns if col not in ["sample", "spatial_rna", "sample_path"]]
+    sample_rna.drop(columns=cols_to_drop, inplace=True)
+    #
+    clonotype_data = files[files["file"].str.contains("clonotype_output")].copy()
+    clonotype_data["clonotype_output"] = clonotype_data["file"].apply(
+        lambda x: str(Path(x).parent).replace("s3:/", "s3://")
+    )
+    clonotype_data = (
+        clonotype_data.groupby("sample")["clonotype_output"]
+        .apply(lambda x: ",".join(map(str, x.dropna())))
+        .reset_index()
+    )
+    #
+    files = pd.merge(
+        pd.merge(sample_rna, fastq_files, on="sample", how="left"), clonotype_data, on="sample", how="left"
+    )
+    files["sampleid"] = files["sample"]
+    #
+    if logger is not None:
+        logger.info("Sample paths derived from dataset files")
+        logger.info("sample paths:\n%s", files["sample_path"].to_list())
+        logger.info("samples:\n%s", files["sampleid"].to_list())
+    #
+    return pd.merge(samples, files, on="sample", how="left")
 
 
 def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
@@ -67,11 +81,21 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     ds.logger.info("files: %s", ds.files)
     ds.logger.info("samplesheet: %s", ds.samplesheet)
     #
-    samplesheet = get_sample_paths(ds)
+    if ds.files.empty:
+        ds.logger.warning("No files found. Preparing samplesheet from dataset paths.")
+        samplesheet = pd.DataFrame(
+            {
+                "sampleid": [x["name"] for x in ds.params["cirro_input"]],
+                "sample_path": [x["s3"] for x in ds.params["cirro_input"]],
+            }
+        )
+    else:
+        samplesheet = get_sample_paths(ds.samplesheet, ds.files, ds.logger)
     #
     for k in SAMPLESHEET_COLUMNS:
         if k in ds.params.keys():
             samplesheet[k] = ds.params[k]
+            ds.remove_param(k)
 
     # check is pipeline uses Cirro samplesheet, and if not prepare it from params
     if samplesheet.empty:
@@ -88,16 +112,8 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
 
     # Save to a file
     samplesheet.to_csv("cirro-samplesheet.csv", index=None)
-
-    # Clear params that we wrote to the samplesheet
-    # cleared params will not overload the nextflow.params
-    to_remove = []
-    for k in ds.params:
-        if k in samplesheet.columns:
-            to_remove.append(k)
-
-    for k in to_remove:
-        ds.remove_param(k)
+    #
+    ds.remove_param("cirro_input")
 
     ds.add_param("input", "cirro-samplesheet.csv")
 
