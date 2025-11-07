@@ -31,13 +31,13 @@ workflow SPATIAL_IR_PIPELINE {
     //
     ALIGN(ch_samplesheet.map { sample -> tuple(sample[0], sample[1], sample[5], sample[6], sample[7], sample[8]) })
     //
-    ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.ch_fastqc)
+    ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.ch_output_from_fastqc)
     ch_versions = ch_versions.mix(ALIGN.out.versions)
     //
     // MODULE: RUN PREPROCESS
     //
     ch_samples = ch_samplesheet.map { sample -> tuple(sample[0], sample[1], sample[2], sample[3]) }
-    PREPROCESS_SPATIAL_IR(ch_samples.combine(ALIGN.out.merged, by: 0))
+    PREPROCESS_SPATIAL_IR(ch_samples.combine(ALIGN.out.ch_output_samples, by: 0))
     //
     // SUBWORKFLOW: RUN IR_SUMMARY
     //

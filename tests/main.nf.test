@@ -7,7 +7,41 @@ nextflow_pipeline {
 
     config "conf/test.config"
 
-    test("Should produce an error with invalid sample sheet format") {
+    test("Should run successfully with mixcr alignment and fastqc") {
+
+        tag "valid_mixcr_pipeline"
+
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_test_mixcr.csv"
+              outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
+    test("Should run successfully when only some samples need alignment") {
+
+        tag "valid_full_pipeline"
+
+        when {
+            params {
+              input = "$baseDir/tests/data/samples_full.csv"
+              outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
+     test("Should produce an error with invalid sample sheet format") {
 
         tag "invalid_sample_format"
         tag "pipeline_errors"
@@ -16,6 +50,7 @@ nextflow_pipeline {
         when {
             params {
               input = 'dummy'
+              outdir = "$outputDir"
             }
         }
 
@@ -36,6 +71,7 @@ nextflow_pipeline {
         when {
             params {
               input = "$baseDir/tests/data/samples_bad_path.csv"
+              outdir = "$outputDir"
             }
         }
 
@@ -46,53 +82,4 @@ nextflow_pipeline {
         }
 
     }
-
-    test("Should run successfully with base input (no alignment or fastqc)") {
-
-        tag "valid_basic_pipeline"
-
-        when {
-            params {
-              input = "$baseDir/tests/data/samples.csv"
-            }
-        }
-
-        then {
-            assert workflow.success
-        }
-
-    }
-
-    test("Should run successfully with mixcr alignment and fastqc") {
-
-        tag "valid_mixcr_pipeline"
-
-        when {
-            params {
-              input = "$baseDir/tests/data/samples_test_mixcr.csv"
-            }
-        }
-
-        then {
-            assert workflow.success
-        }
-
-    }
-
-    test("Should run successfully when only some samples need alignment") {
-
-        tag "valid_full_pipeline"
-
-        when {
-            params {
-              input = "$baseDir/tests/data/samples_full.csv"
-            }
-        }
-
-        then {
-            assert workflow.success
-        }
-
-    }
-
 }

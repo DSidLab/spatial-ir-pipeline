@@ -41,12 +41,14 @@ To enforce these and ensure that all pipelines stay in sync, we have developed a
 
 If any failures or warnings are encountered, please follow the listed URL for more documentation.
 
+> [!NOTE]
+> Above text is kept for reference later. The code uses a combination of linters and formatters which can be run with `pre-commit`. There is also a `lint and format` git workflow that must pass before code can be merged with main.
+
 ### Pipeline tests
 
-Each `nf-core` pipeline should be set up with a minimal set of test-data.
-`GitHub Actions` then runs the pipeline on this data to ensure that it exits successfully.
-If there are any failures then the automated tests fail.
-These tests are run both with the latest available version of `Nextflow` and also the minimum required version that is stated in the pipeline code.
+`GitHub Actions` workflow runs the `nf-test` tests for local `modules`, `subworkflows`, and the full `pipeline`. If there are any failures then the automated tests fail. These tests are run both with the latest available version of `Nextflow` and also the minimum required version that is stated in the pipeline code.
+
+Tests are organized in a format laid out by `nf-core`, briefly each `module` or `subworkflow` has its own "tests" directory with a testing workflow which consists of one or many workflow tests. Test data is stored in the "tests/data" subdirectory.
 
 ## Patch
 
@@ -71,9 +73,9 @@ If you wish to contribute a new step, please use the following coding standards:
 5. Add any new parameters to `nextflow_schema.json` with help text (via the `nf-core pipelines schema build` tool).
 6. Add sanity checks and validation for all relevant parameters.
 7. Perform local tests to validate that the new code works as expected.
-8. If applicable, add a new test in the `tests` directory.
-9. Update MultiQC config `assets/multiqc_config.yml` so relevant suffixes, file name clean up and module plots are in the appropriate order. If applicable, add a [MultiQC](https://https://multiqc.info/) module.
-10. Add a description of the output files and if relevant any appropriate images from the MultiQC report to `docs/output.md`.
+8. If applicable, add a new test or update a test in the appropriate `tests` directory.
+9. If a MultiQC module was added, update MultiQC config `assets/multiqc_config.yml` so relevant suffixes, file name clean up and module plots are in the appropriate order. If applicable, add a [MultiQC](https://https://multiqc.info/) module.
+10. Add a description of the output files and if relevant any appropriate images from the MultiQC or Quarto reports to `docs/output.md`.
 
 ### Default values
 

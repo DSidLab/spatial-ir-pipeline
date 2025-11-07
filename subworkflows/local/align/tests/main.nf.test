@@ -108,7 +108,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        workflow.out.merged.get(0).get(1).toString()
+                        workflow.out.ch_output_samples.get(0).get(1).toString()
                         //workflow.out.versions,
                         //path(workflow.out.versions[0]).yaml
                     ).match()

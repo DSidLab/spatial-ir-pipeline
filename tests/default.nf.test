@@ -1,0 +1,23 @@
+nextflow_pipeline {
+
+    name "Test full workflow"
+    script "../main.nf"
+    tag "pipeline_full"
+    profile "test"
+
+    config "conf/test.config"
+
+    test("Full pipeline test") {
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samples.csv"
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+    }
+}

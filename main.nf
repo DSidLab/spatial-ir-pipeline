@@ -30,6 +30,9 @@ workflow {
     PIPELINE_INITIALISATION(
         params.version,
         params.validate_params,
+        params.help,
+        params.help_full,
+        params.show_hidden,
         args,
         params.outdir,
         params.input,

@@ -27,6 +27,9 @@ workflow PIPELINE_INITIALISATION {
     take:
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
+    help
+    help_full
+    show_hidden
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
     input             //  string: Path to input samplesheet
@@ -44,14 +47,28 @@ workflow PIPELINE_INITIALISATION {
         outdir,
         workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1,
     )
+    before_text = """
+           ## dsidlab/spatial-ir-pipeline version: ${workflow.manifest.version}
+        """.stripIndent()
+        after_text = """
+            software dependencies:
+                https://github.com/dsidlab/spatial-ir-pipeline/blob/main/CITATIONS.md
+            """
+    command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
     //
     // Validate parameters and generate parameter summary to stdout
     //
-    UTILS_NFSCHEMA_PLUGIN(
+    UTILS_NFSCHEMA_PLUGIN (
         workflow,
         validate_params,
         null,
+        help,
+        help_full,
+        show_hidden,
+        before_text,
+        after_text,
+        command
     )
 
     //

@@ -1,1 +1,27 @@
+nf_core_version: 3.3.2
 repository_type: pipeline
+lint:
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - ro-crate-metadata.json
+  files_unchanged:
+    - .gitignore
+  multiqc_config: False
+  template_strings: False
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+    - validation.help.beforeText
+    - validation.help.afterText
+    - validation.summary.beforeText
+    - validation.summary.afterText
+  readme: False
+  actions_schema_validation: False
+  pipeline_name_conventions: False
+  nf_test_content: False

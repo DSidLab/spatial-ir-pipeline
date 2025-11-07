@@ -13,19 +13,19 @@ workflow ALIGN {
   ch_samples
     .filter { sample -> sample[3] }
     .map { sample -> tuple(sample[0], sample[1], sample[4], sample[5]) }
-    .set { align_map }
+    .set { ch_samples_for_align }
 
   // ---- NEW ALIGNMENTS branch: run alignment for requested samples ----
-  ALIGN_MIXCR(align_map)
+  ALIGN_MIXCR(ch_samples_for_align)
   ALIGN_MIXCR.out.aligned_paths
     .map { meta, run_paths ->
       def csv = run_paths.listFiles().collect { input -> "${input.getParent()}/${input.getName()}" }.join(',')
       return tuple(meta, csv)
     }
-    .set { aligned_map }
+    .set { ch_output_from_align }
 
   // ---- RUN FASTQC on samples with fastq files ----
-  ch_fastqc = channel.empty()
+  ch_output_from_fastqc = channel.empty()
   if (params.run_fastqc_on_irseq) {
     ch_samples
       .filter { sample -> sample[4] }
@@ -36,19 +36,19 @@ workflow ALIGN {
         def f2 = (base as Path).resolve(parts[1])
         tuple(meta + [single_end: false], [f1, f2])
       }
-      .set { ch_fastqs }
+      .set { ch_samples_for_fastqc }
     //
-    FASTQC(ch_fastqs)
-    ch_fastqc = FASTQC.out.zip.collect { outs -> outs[1] }
+    FASTQC(ch_samples_for_fastqc)
+    ch_output_from_fastqc = FASTQC.out.zip.collect { outs -> outs[1] }
     versions = versions.mix(FASTQC.out.versions)
   }
   // ---- MERGE branch: combine new aligned and original ----
-  ch_samples.filter { sample -> !sample[3] }.map { sample -> tuple(sample[0], sample[2]) }.concat(aligned_map).set { merged }
+  ch_samples.filter { sample -> !sample[3] }.map { sample -> tuple(sample[0], sample[2]) }.concat(ch_output_from_align).set { ch_output_samples }
 
   versions = versions.mix(ALIGN_MIXCR.out.versions)
 
   emit:
-  merged
-  ch_fastqc
+  ch_output_samples
+  ch_output_from_fastqc
   versions
 }
