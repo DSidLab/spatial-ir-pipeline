@@ -48,6 +48,7 @@ nextflow_workflow {
 
     test("test with sample input channel and multiple align sets"){
 
+        tag "subworkflows_align_multi_all"
         tag "subworkflows_align_multi"
 
         when {
@@ -119,6 +120,7 @@ nextflow_workflow {
     test("test with multiple samples and different configurations"){
 
         tag "subworkflows_align_full_mix"
+        tag "subworkflows_align_multi"
 
         when {
             params {
@@ -172,8 +174,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                         stable_work_files*.name,
-                        workflow.out.merged.get(2).get(1).toString(),
-                        workflow.out.merged.get(3).get(1).toString(),
                         workflow.out.versions,
                         path(workflow.out.versions[0]).yaml
                     ).match()

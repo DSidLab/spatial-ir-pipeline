@@ -40,8 +40,8 @@ jobs:
         run: |
           pip install --no-deps "circuss @ git+https://github.com/DSidLab/circuss.git@main"
           pip install --no-deps "sidus @ git+https://github.com/AstroPathJHU/sidus.git@main"
-          pip install --no-deps cirro
           pip install --no-deps spatialdata
+          pip install cirro
           pip install .[test]
 
       - name: Run cirro preprocessing script unit tests
