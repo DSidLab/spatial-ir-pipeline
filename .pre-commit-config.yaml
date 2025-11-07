@@ -7,12 +7,12 @@ repos:
       - id: black
 
   # Ruff (linter + import sorting)
-  # - repo: https://github.com/astral-sh/ruff-pre-commit
-  #  rev: v0.6.9
-  #  hooks:
-  #    - id: ruff
-  #      args: [--fix] # autofix where possible
-  #    - id: ruff-format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix] # autofix where possible
+      - id: ruff-format
 
   # Prettier for non-Python text files
   - repo: https://github.com/pre-commit/mirrors-prettier

@@ -3,5 +3,5 @@
     "outdir": "$.params.dataset.s3|/data/",
     "sample_label": "$.dataset.params.sample_label",
     "align": "$.dataset.params.run_options.align",
-    "fastqc": "$.dataset.params.run_options.fastqc"
+    "run_fastqc_on_irseq": "$.dataset.params.run_options.fastqc"
 }

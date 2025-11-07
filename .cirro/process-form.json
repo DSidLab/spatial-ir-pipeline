@@ -18,7 +18,7 @@
                         "type": "boolean"
                     },
                     "fastqc": {
-                        "title": "Whether to run fast qc on the sequencing data",
+                        "title": "Whether to run FastQC on the TCR sequencing data and generate a MultiQC report",
                         "type": "boolean"
                     }
                 }

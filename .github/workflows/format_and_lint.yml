@@ -44,9 +44,6 @@ jobs:
           pip install --no-deps spatialdata
           pip install .[test]
 
-      # - name: Ruff (lint)
-      #   run: ruff check .
-
       - name: Run cirro preprocessing script unit tests
         run: python -m unittest discover -s .cirro -p '*_test.py'
 
