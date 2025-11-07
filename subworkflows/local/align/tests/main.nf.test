@@ -15,6 +15,9 @@ nextflow_workflow {
         tag "subworkflows_align_basic"
 
         when {
+            params {
+                outdir = "$outputDir"
+            }
 
             workflow {
                 """
@@ -32,7 +35,7 @@ nextflow_workflow {
 
         then {
 
-            def stable_work_files = getAllFilesFromDir(workflow.out.merged.get(0).get(1), false, ['**/*fastq.gz'], null, ['*', '**/*'])
+            def stable_work_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*', '**/*fastq.gz'], null, ['*', '**/*'])
 
             assertAll(
                 { assert workflow.success },

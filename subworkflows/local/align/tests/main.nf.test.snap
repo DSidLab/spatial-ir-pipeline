@@ -33,7 +33,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T03:03:29.150055743"
+        "timestamp": "2025-11-07T06:33:42.045009125"
     },
     "test with multiple samples and different configurations": {
         "content": [
@@ -81,7 +81,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T03:05:00.628390315"
+        "timestamp": "2025-11-07T06:35:12.556525274"
     },
     "test with no alignment requested": {
         "content": [
@@ -91,7 +91,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T03:03:34.39404592"
+        "timestamp": "2025-11-07T06:33:47.181212075"
     },
     "test with basic sample input channel": {
         "content": [
@@ -101,7 +101,11 @@
                 "test.clonotype.report.json",
                 "test.refined.vdjca",
                 "test.spatial.airr.tsv",
-                "test.vdjca"
+                "test.vdjca",
+                "test_1_fastqc.html",
+                "test_1_fastqc.zip",
+                "test_2_fastqc.html",
+                "test_2_fastqc.zip"
             ],
             [
                 "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
@@ -117,6 +121,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T03:02:02.585200108"
+        "timestamp": "2025-11-07T06:32:19.699868094"
     }
 }
