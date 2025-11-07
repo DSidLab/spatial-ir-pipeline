@@ -32,8 +32,11 @@ input_sdata = "sdata.zarr"  # Input: spatialdata object
 ```{python}
 import scanpy as sc
 import anndata as an
+import spatialdata as sd
 ```
 
 ```{python}
 print(f"input_sdata = {input_sdata}")
+
+sdata = sd.read_zarr(input_sdata)
 ```
