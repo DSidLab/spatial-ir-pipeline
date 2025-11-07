@@ -3,18 +3,19 @@
 """Merge multiple SpatialData objects into one"""
 
 import os
+import shlex
+
 from importlib.metadata import version
 import spatialdata
 
 PROCESS = "${task.process}"
 PREFIX = "${prefix}"
-SDATAS = "${sdata}"  # List of input SpatialData zarr paths
+SDATAS = shlex.split("${sdata}")  # List of input SpatialData zarr paths
 
 os.makedirs(PREFIX, exist_ok=True)
 print(SDATAS)
 
 # Read all zarr SpatialData directories
-SDATAS = SDATAS if isinstance(SDATAS, list) else [SDATAS]
 #
 sdatas = []
 for file in SDATAS:

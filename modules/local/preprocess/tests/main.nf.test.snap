@@ -2,7 +2,6 @@
     "should pass preprocessing": {
         "content": [
             [
-                "adata_raw.h5ad",
                 "adata_raw.h5ad"
             ],
             [
@@ -17,14 +16,13 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-06T19:31:01.478695921"
+        "timestamp": "2025-11-06T23:55:59.978167115"
     },
     "should pass preprocessing without clonotype input": {
         "content": [
             [
-                "adata_raw.h5ad",
                 "adata_raw.h5ad"
             ],
             [
@@ -39,8 +37,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-06T19:31:55.197870281"
+        "timestamp": "2025-11-07T01:28:24.224555519"
     }
 }

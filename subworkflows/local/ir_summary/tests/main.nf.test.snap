@@ -1,6 +1,9 @@
 {
-    "should pass summary": {
+    "should pass summary multiple samples": {
         "content": [
+            [
+                "ir_summary.html"
+            ],
             [
                 "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
                 "versions.yml:md5,a0e88a3858b2e2f62937242f79117f56"
@@ -13,8 +16,29 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-06T19:03:33.418043695"
+        "timestamp": "2025-11-07T02:14:18.287928818"
+    },
+    "should pass summary single": {
+        "content": [
+            [
+                "ir_summary.html"
+            ],
+            [
+                "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
+                "versions.yml:md5,a0e88a3858b2e2f62937242f79117f56"
+            ],
+            {
+                "IR_SUMMARY:MERGE_SDATA": {
+                    "spatialdata": "0.5.0"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-07T02:13:00.449012909"
     }
 }

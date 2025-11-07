@@ -17,12 +17,12 @@ nextflow_process {
 
         when {
             params {
-                outdir = "$workDir"
+                outdir = "$outputDir"
             }
             process {
                 """
                 input[0] = [
-                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], "1"
+                    [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
                 ]
                 """
             }
@@ -30,7 +30,7 @@ nextflow_process {
 
         then {
 
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/adata_pp.h5ad','**/adata_raw.h5ad', '**/ir_diversity_data.npy'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/sdata_pp.zarr','**/adata_raw.h5ad'])
 
             assertAll(
                 { assert process.success },
@@ -51,12 +51,12 @@ nextflow_process {
 
         when {
             params {
-                outdir = "$workDir"
+                outdir = "$outputDir"
             }
             process {
                 """
                 input[0] = [
-                    [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], []
+                    [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], []
                 ]
                 """
             }
@@ -64,7 +64,7 @@ nextflow_process {
 
         then {
 
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/adata_pp.h5ad','**/adata_raw.h5ad', '**/ir_diversity_data.npy'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['pipeline_info/*'], null, ['**/sdata_pp.zarr','**/adata_raw.h5ad'])
 
             assertAll(
                 { assert process.success },

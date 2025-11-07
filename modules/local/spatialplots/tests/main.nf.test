@@ -17,7 +17,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'pt15' ], "$baseDir/tests/data/pt15"
+                    [ id:'test' ], "$baseDir/tests/data/test_15"
                 ]
                 """
             }

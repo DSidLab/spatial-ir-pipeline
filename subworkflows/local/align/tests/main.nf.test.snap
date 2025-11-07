@@ -2,30 +2,6 @@
     "test with sample input channel and multiple align sets": {
         "content": [
             [
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
-                "fcinfo-1-fe57579f1658-Linux-4.18.0-425.3.1.el8.x86_64-en-.properties",
-                "_test_work_data_1.gz",
-                "_test_work_data_1_fastqc.html",
-                "_test_work_data_1_fastqc.zip",
-                "_test_work_data_2.gz",
-                "_test_work_data_2_fastqc.html",
-                "_test_work_data_2_fastqc.zip",
-                "versions.yml",
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
                 "test.airr.tsv",
                 "test.clna",
                 "test.clonotype.report.json",
@@ -38,25 +14,10 @@
                 "test.refined.vdjca",
                 "test.spatial.airr.tsv",
                 "test.vdjca",
-                "fontlist-v390.json",
-                "pt16",
-                "versions.yml",
-                "test.airr.tsv",
-                "test.clna",
-                "test.clonotype.report.json",
-                "test.refined.vdjca",
-                "test.spatial.airr.tsv",
-                "test.vdjca",
-                "test.airr.tsv",
-                "test.clna",
-                "test.clonotype.report.json",
-                "test.refined.vdjca",
-                "test.spatial.airr.tsv",
-                "test.vdjca",
-                "_test_work_data_1_fastqc.html",
-                "_test_work_data_1_fastqc.zip",
-                "_test_work_data_2_fastqc.html",
-                "_test_work_data_2_fastqc.zip"
+                "test_1_fastqc.html",
+                "test_1_fastqc.zip",
+                "test_2_fastqc.html",
+                "test_2_fastqc.zip"
             ],
             [
                 "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
@@ -70,37 +31,13 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-10-23T16:56:09.895377658"
+        "timestamp": "2025-11-07T01:39:18.18783234"
     },
     "test with multiple samples and different configurations": {
         "content": [
             [
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
-                "fcinfo-1-11bca118343b-Linux-4.18.0-425.3.1.el8.x86_64-en-.properties",
-                "_test_work_data_1.gz",
-                "_test_work_data_1_fastqc.html",
-                "_test_work_data_1_fastqc.zip",
-                "_test_work_data_2.gz",
-                "_test_work_data_2_fastqc.html",
-                "_test_work_data_2_fastqc.zip",
-                "versions.yml",
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
                 "test.airr.tsv",
                 "test.clna",
                 "test.clonotype.report.json",
@@ -113,61 +50,23 @@
                 "test.refined.vdjca",
                 "test.spatial.airr.tsv",
                 "test.vdjca",
-                "fontlist-v390.json",
-                "pt16",
-                "versions.yml",
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
                 "test2.airr.tsv",
                 "test2.clna",
                 "test2.clonotype.report.json",
                 "test2.refined.vdjca",
                 "test2.spatial.airr.tsv",
                 "test2.vdjca",
-                "fontlist-v390.json",
-                "pt16",
-                "versions.yml",
-                "test.airr.tsv",
-                "test.clna",
-                "test.clonotype.report.json",
-                "test.refined.vdjca",
-                "test.spatial.airr.tsv",
-                "test.vdjca",
-                "test.airr.tsv",
-                "test.clna",
-                "test.clonotype.report.json",
-                "test.refined.vdjca",
-                "test.spatial.airr.tsv",
-                "test.vdjca",
-                ".command.begin",
-                ".command.err",
-                ".command.log",
-                ".command.out",
-                ".command.run",
-                ".command.sh",
-                ".command.trace",
-                ".exitcode",
-                "fcinfo-1-5704715c48c2-Linux-4.18.0-425.3.1.el8.x86_64-en-.properties",
-                "_test_work_data_1.gz",
-                "_test_work_data_1_fastqc.html",
-                "_test_work_data_1_fastqc.zip",
-                "_test_work_data_2.gz",
-                "_test_work_data_2_fastqc.html",
-                "_test_work_data_2_fastqc.zip",
-                "versions.yml",
-                "_test_work_data_1_fastqc.html",
-                "_test_work_data_1_fastqc.zip",
-                "_test_work_data_2_fastqc.html",
-                "_test_work_data_2_fastqc.zip"
+                "test2_1_fastqc.html",
+                "test2_1_fastqc.zip",
+                "test2_2_fastqc.html",
+                "test2_2_fastqc.zip",
+                "test_1_fastqc.html",
+                "test_1_fastqc.zip",
+                "test_2_fastqc.html",
+                "test_2_fastqc.zip"
             ],
             "[]",
-            "/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/8e/5c02562ee96fa27a36e16c6e63885c/_test_work_data/clonotype_output/1,/u/bgreen42/new_thing/spatial-ir-pipeline/.nf-test/tests/8134c381c74191cd0937e7f83e6a1ad0/work/8e/5c02562ee96fa27a36e16c6e63885c/_test_work_data/clonotype_output/2",
+            "/u/bgreen42/spatial-ir-pipeline/.nf-test/tests/51209c55ff0ee4efeec215d856c042a4/work/90/8521aae4f83e5a1f8ac36b29fb3172/test/clonotype_output/1,/u/bgreen42/spatial-ir-pipeline/.nf-test/tests/51209c55ff0ee4efeec215d856c042a4/work/90/8521aae4f83e5a1f8ac36b29fb3172/test/clonotype_output/2",
             [
                 "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
                 "versions.yml:md5,6fb00cdcdf24621ac5261bf88a47212c",
@@ -182,9 +81,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-10-23T16:57:39.121098911"
+        "timestamp": "2025-11-07T01:40:46.355509333"
     },
     "test with no alignment requested": {
         "content": [
@@ -192,9 +91,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-10-23T16:56:13.801440677"
+        "timestamp": "2025-11-07T01:39:23.085158671"
     },
     "test with basic sample input channel": {
         "content": [
@@ -218,8 +117,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-10-23T16:54:48.845631694"
+        "timestamp": "2025-11-07T01:37:54.67712303"
     }
 }

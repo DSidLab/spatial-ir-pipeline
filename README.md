@@ -6,14 +6,12 @@
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A524.10.5-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
 [![nf-core template version](https://img.shields.io/badge/nf--core_template-3.3.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.3.2)
-[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/dsidlab/spatial-ir-pipeline)
 
 ## Introduction
 
-**dsidlab/spatial-ir-pipeline** is a bioinformatics pipeline that ...
+**spatial-ir-pipeline** is a bioinformatics pipeline that ...
 
 ## Usage
 
@@ -29,14 +27,15 @@ nextflow run dsidlab/spatial-ir-pipeline \
    --outdir <OUTDIR>
 ```
 
+> [!NOTE]
+> The pipeline has only been tested using _docker_ profiles. The pipeline uses private Python packages `sidus` and `circuss` which are in development. The docker container denoted in processes has development versions installed.
+
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 ## Credits
 
-dsidlab/spatial-ir-pipeline was originally written by Benjamin Green.
-
-We thank the following people for their extensive assistance in the development of this pipeline:
+spatial-ir-pipeline was originally written by and is maintained by Benjamin F. Green.
 
 ## Contributions and Support
 

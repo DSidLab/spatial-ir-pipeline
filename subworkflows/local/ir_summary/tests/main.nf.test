@@ -6,14 +6,13 @@ nextflow_workflow {
 
     tag "subworkflows"
     tag "subworkflows_local"
+    tag "ir_summary"
 
     config "conf/test.config"
 
+    test("should pass summary single"){
 
-
-    test("should pass summary"){
-
-        tag "ir_summary"
+        tag "ir_summary_single"
 
         setup {
             run("PREPROCESS_SPATIAL_IR") {
@@ -21,7 +20,7 @@ nextflow_workflow {
                 process {
                     """
                     input[0] = [
-                        [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], "1"
+                        [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
                     ]
                     """
                 }
@@ -29,6 +28,9 @@ nextflow_workflow {
         }
 
         when {
+            params {
+                outdir = "$outputDir"
+            }
             workflow {
                 """
                 input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
@@ -37,10 +39,60 @@ nextflow_workflow {
         }
 
         then {
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/ir_summary.html'])
+
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        // workflow.out.report,
+                        stable_out_files*.name,
+                        workflow.out.versions,
+                        path(workflow.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+
+        test("should pass summary multiple samples"){
+
+        tag "ir_summary_multi"
+
+        setup {
+            run("PREPROCESS_SPATIAL_IR") {
+                script "modules/local/preprocess/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of(
+                        [
+                            [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                        ],
+                        [
+                            [ id:'pt19' ], "$baseDir/tests/data/test_19", "$baseDir/tests/data/test_19/spatial_rna", [], "1"
+                        ]
+                    )
+                    """
+                }
+            }
+        }
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            workflow {
+                """
+                input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                """
+            }
+        }
+
+        then {
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/ir_summary.html'])
+
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        stable_out_files*.name,
                         workflow.out.versions,
                         path(workflow.out.versions[0]).yaml
                     ).match()

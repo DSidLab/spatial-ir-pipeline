@@ -39,3 +39,11 @@
 - [Singularity](https://pubmed.ncbi.nlm.nih.gov/28494014/)
 
   > Kurtzer GM, Sochat V, Bauer MW. Singularity: Scientific containers for mobility of compute. PLoS One. 2017 May 11;12(5):e0177459. doi: 10.1371/journal.pone.0177459. eCollection 2017. PubMed PMID: 28494014; PubMed Central PMCID: PMC5426675.
+
+## Test Data
+
+- [Localization of T cell clonotypes using the Visium spatial transcriptomics platform](https://doi.org/10.1016/j.xpro.2022.101391)
+
+> Hudson WH, Sudmeier LJ. Localization of T cell clonotypes using the Visium spatial transcriptomics platform. STAR Protoc. 2022 Jun 10;3(2):101391. doi: 10.1016/j.xpro.2022.101391. PMID: 35707680; PMCID: PMC9189629.
+
+> whhudson. whhudson/spatialTCR: Spatial TCR Publication. publication, Zenodo, 18 Mar. 2022, https://doi.org/10.5281/zenodo.6368907.

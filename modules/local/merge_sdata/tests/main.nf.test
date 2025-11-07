@@ -1,41 +1,55 @@
 nextflow_process {
 
-    name "test align module"
+    name "test merge sdata summary"
     script "../main.nf"
-    process "ALIGN_MIXCR"
+    process "MERGE_SDATA"
 
     tag "modules"
     tag "modules_local"
-    tag "modules_align"
+    tag "merge_sdata"
 
     config "conf/test.config"
 
-    test("test with all inputs"){
+    test("should pass normal merge"){
 
-        tag "mixcr"
-        tag "mixcr_full_input"
+        tag "merge_sdata_single"
+
+        setup {
+            run("PREPROCESS_SPATIAL_IR") {
+                script "modules/local/preprocess/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                    ]
+                    """
+                }
+            }
+        }
 
         when {
+            params {
+                outdir = "$outputDir"
+            }
             process {
                 """
-                input[0] = [
-                    [ id:'test' ],
-                    "$baseDir/tests/data/pt16",
-                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
-                    "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"
-                ]
+                input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                    .map { sample -> sample[1] }
+                    .collect()
+                    .map { sample_paths ->
+                        tuple([id: "merged"], sample_paths)
+                    }
                 """
             }
         }
 
         then {
-
-            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/merged_sdata.zarr'])
 
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                        stable_work_files*.name,
+                        stable_out_files*.name,
                         process.out.versions,
                         path(process.out.versions[0]).yaml
                     ).match()
@@ -44,66 +58,51 @@ nextflow_process {
         }
     }
 
-    test("test without ir_fastq_path"){
+    test("should pass merge with multiple samples"){
 
-        tag "mixcr"
-        tag "mixcr_no_ir_fastq_path"
+        tag "merge_sdata_multi"
 
-        when {
-            process {
-                """
-                input[0] = [
-                    [ id:'test' ],
-                    "$baseDir/tests/data/pt16",
-                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
-                    ""
-                ]
-                """
-            }
-        }
-
-        then {
-
-            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
-
-            assertAll(
-                { assert process.success },
-                { assert snapshot(
-                        stable_work_files*.name,
-                        process.out.versions,
-                        path(process.out.versions[0]).yaml
-                    ).match()
+        setup {
+            run("PREPROCESS_SPATIAL_IR") {
+                script "modules/local/preprocess/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of(
+                        [
+                            [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                        ],
+                        [
+                            [ id:'pt19' ], "$baseDir/tests/data/test_19", "$baseDir/tests/data/test_19/spatial_rna", [], "1"
+                        ]
+                    )
+                    """
                 }
-            )
+            }
         }
-    }
-
-    test("test multiple ir_read_id pairs"){
-
-        tag "mixcr"
-        tag "mixcr_multiple"
 
         when {
+            params {
+                outdir = "$outputDir"
+            }
             process {
                 """
-                input[0] = [
-                    [ id:'test'],
-                    "$baseDir/tests/data/pt16",
-                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
-                    "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"
-                ]
+                input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                    .map { sample -> sample[1] }
+                    .collect()
+                    .map { sample_paths ->
+                        tuple([id: "merged"], sample_paths)
+                    }
                 """
             }
         }
 
         then {
-
-            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/merged_sdata.zarr'])
 
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                        stable_work_files*.name,
+                        stable_out_files*.name,
                         process.out.versions,
                         path(process.out.versions[0]).yaml
                     ).match()

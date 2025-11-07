@@ -7,12 +7,11 @@ build-backend = "setuptools.build_meta"
 name = "spatial-ir-pipeline"
 version = "0.0.0"
 
-
 requires-python = ">=3.10"
 dependencies = []
 
 [tool.setuptools]
-packages = ["bin.spatial_ir"]
+packages = []
 
 [project.optional-dependencies]
 dev = [
@@ -25,7 +24,6 @@ test = [
     "black",
     "flake8",
     "numpy",
-    "multiqc",
     "pandas",
     "pylint",
     "pytest",
@@ -46,6 +44,3 @@ filterwarnings = [
     'ignore:This package has been superseded by the `leidenalg`', # scanpy
     "ignore: 'mode' parameter is deprecated and will be.", # matplotlib
 ]
-
-[project.entry-points."multiqc.modules.v1"]
-spatial_ir = "bin.spatial_ir:MultiqcModule"

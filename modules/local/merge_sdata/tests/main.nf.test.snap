@@ -1,0 +1,42 @@
+{
+    "should pass merge with multiple samples": {
+        "content": [
+            [
+                
+            ],
+            [
+                "versions.yml:md5,5f440e631b2108068dd9ce101715e84f"
+            ],
+            {
+                "MERGE_SDATA": {
+                    "spatialdata": "0.5.0"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-07T02:04:40.737160369"
+    },
+    "should pass normal merge": {
+        "content": [
+            [
+                
+            ],
+            [
+                "versions.yml:md5,5f440e631b2108068dd9ce101715e84f"
+            ],
+            {
+                "MERGE_SDATA": {
+                    "spatialdata": "0.5.0"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-07T01:56:09.339120151"
+    }
+}
