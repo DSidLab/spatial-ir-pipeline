@@ -27,7 +27,8 @@
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-                    "fa_icon": "fas fa-folder-open"
+                    "fa_icon": "fas fa-folder-open",
+                    "default": "out"
                 }
             }
         },
@@ -142,7 +143,14 @@
         },
         "run_cache": {
             "type": "string",
-            "default": "_tmp"
+            "default": "_tmp",
+            "description": "Where to put the cache for the run.",
+            "hidden": true
+        },
+        "run_fastqc_on_irseq": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether or not to run FASTQC on immune receptor sequencing files and generate the MultiQC report for the samples."
         }
     }
 }

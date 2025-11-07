@@ -1,0 +1,20 @@
+{
+    "should pass summary": {
+        "content": [
+            [
+                "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
+                "versions.yml:md5,a0e88a3858b2e2f62937242f79117f56"
+            ],
+            {
+                "IR_SUMMARY:MERGE_SDATA": {
+                    "spatialdata": "0.5.0"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
+        },
+        "timestamp": "2025-11-06T19:03:33.418043695"
+    }
+}

@@ -10,7 +10,7 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_spatial-ir-pipeline_pipeline'
 include { ALIGN                  } from '../subworkflows/local/align'
 include { PREPROCESS_SPATIAL_IR  } from '../modules/local/preprocess'
-include { IR_SUMMARY             } from '../modules/local/ir_summary'
+include { IR_SUMMARY             } from '../subworkflows/local/ir_summary'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,33 +24,26 @@ workflow SPATIAL_IR_PIPELINE {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
     //
-    // MODULE: Run ALIGN
+    // SUBWORKFLOW: Run ALIGN
     //
-    ALIGN(ch_samplesheet.map { tuple(it[0], it[1], it[5], it[6], it[7], it[8]) })
+    ALIGN(ch_samplesheet.map { sample -> tuple(sample[0], sample[1], sample[5], sample[6], sample[7], sample[8]) })
     //
     ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.ch_fastqc)
     ch_versions = ch_versions.mix(ALIGN.out.versions)
     //
     // MODULE: RUN PREPROCESS
     //
-    ch_samples = ch_samplesheet.map { tuple(it[0], it[1], it[2], it[3]) }
+    ch_samples = ch_samplesheet.map { sample -> tuple(sample[0], sample[1], sample[2], sample[3]) }
     PREPROCESS_SPATIAL_IR(ch_samples.combine(ALIGN.out.merged, by: 0))
     //
-    // MODULE: RUN IR_SUMMARY
+    // SUBWORKFLOW: RUN IR_SUMMARY
     //
-    ch_samples = ch_samplesheet.map { tuple(it[0], it[1], it[2]) }
-    ch_report_inputs = PREPROCESS_SPATIAL_IR.out.output_paths.map { tuple(it[0], it[1], it[2]) }
-    IR_SUMMARY(ch_samples.combine(ch_report_inputs, by: 0))
+    IR_SUMMARY(PREPROCESS_SPATIAL_IR.out.output_paths)
     //
-    ch_multiqc_files = ch_multiqc_files.mix(IR_SUMMARY.out.report)
     ch_versions = ch_versions.mix(IR_SUMMARY.out.versions)
-    //
-    // MODULE: RUN IR_SPATIAL
-    //
-
     //
     // Collate and save software versions
     //
@@ -65,29 +58,28 @@ workflow SPATIAL_IR_PIPELINE {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config = Channel.fromPath(
+    ch_multiqc_config = channel.fromPath(
         "${projectDir}/assets/multiqc_config.yml",
         checkIfExists: true
     )
     ch_multiqc_custom_config = params.multiqc_config
-        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
-        : Channel.empty()
+        ? channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : channel.empty()
     ch_multiqc_logo = params.multiqc_logo
-        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
-        : Channel.empty()
-
+        ? channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : channel.empty()
     summary_params = paramsSummaryMap(
         workflow,
         parameters_schema: "nextflow_schema.json"
     )
-    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+    ch_workflow_summary = channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
         ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
     )
     ch_multiqc_custom_methods_description = params.multiqc_methods_description
         ? file(params.multiqc_methods_description, checkIfExists: true)
         : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description = Channel.value(
+    ch_methods_description = channel.value(
         methodsDescriptionText(ch_multiqc_custom_methods_description)
     )
 

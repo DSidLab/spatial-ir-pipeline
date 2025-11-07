@@ -4,12 +4,21 @@
         "title": "Spatial Immune Receptor 10X Visium Pipeline",
         "type": "object",
         "properties": {
+            "sample_label": {
+                "title": "Sample Label",
+                "type": "string",
+                "description": "Label from the samplesheet corresponding to this sample. This will be used to match the Immune Receptor Sequencing dataset to the Visium dataset."
+            },
             "run_options": {
                 "title": "Run Options",
                 "type": "object",
                 "properties": {
                     "align": {
                         "title": "Whether to run alignment with MiXCR",
+                        "type": "boolean"
+                    },
+                    "fastqc": {
+                        "title": "Whether to run fast qc on the sequencing data",
                         "type": "boolean"
                     }
                 }

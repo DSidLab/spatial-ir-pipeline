@@ -11,6 +11,6 @@ process PREPROCESS_SPATIAL_IR {
     template('preprocess.py')
 
     output:
-    tuple val(meta), path("${prefix}/adata_pp.h5ad"), path("${prefix}/ir_diversity_data.npy"), path("${prefix}/adata_raw.h5ad"), emit: output_paths
+    tuple val(meta), path("${prefix}/sdata_pp.zarr"), path("${prefix}/adata_raw.h5ad"), emit: output_paths
     path "versions.yml", emit: versions
 }

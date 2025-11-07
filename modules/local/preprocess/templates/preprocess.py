@@ -6,7 +6,8 @@ import os
 from importlib.metadata import version
 
 import circuss as cs
-import numpy as np
+
+# import numpy as np
 from sidus import externals as ext
 
 PROCESS = "${task.process}"
@@ -34,14 +35,10 @@ ext.basic_scanpy(sdata)
 ext.cluster_leiden(sdata)
 # ext.spagcn(ir_data) # package uses sc.tl.louvian which has been removed
 ext.rank_groups_and_get_dendrogram(sdata)  # , layer = 'data')
-sdata[f"{SAMPLEID}_rna"].uns["leiden"]["params"]["random_state"] = 0
 # add ext methods
-cs.analysis.get_ir_alpha_diversity(sdata, obs_mask=[None, "leiden"])
-# save ir diversity (recarry doesn't serialize)
-np.save(f"{PREFIX}/ir_diversity_data.npy", sdata[f"{SAMPLEID}_rna"].uns["ir_diversity"])
-del sdata[f"{SAMPLEID}_rna"].uns["ir_diversity"]
+# cs.analysis.get_ir_alpha_diversity(sdata, obs_mask=[None, "leiden"])
 #
-sdata[f"{SAMPLEID}_rna"].write_h5ad(f"{PREFIX}/adata_pp.h5ad")
+sdata.write(f"{PREFIX}/sdata_pp.zarr")
 
 # versions
 with open("versions.yml", "w", encoding="utf-8") as f:

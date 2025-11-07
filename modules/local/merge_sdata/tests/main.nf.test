@@ -1,0 +1,114 @@
+nextflow_process {
+
+    name "test align module"
+    script "../main.nf"
+    process "ALIGN_MIXCR"
+
+    tag "modules"
+    tag "modules_local"
+    tag "modules_align"
+
+    config "conf/test.config"
+
+    test("test with all inputs"){
+
+        tag "mixcr"
+        tag "mixcr_full_input"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    "$baseDir/tests/data/pt16",
+                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                    "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"
+                ]
+                """
+            }
+        }
+
+        then {
+
+            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
+
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                        stable_work_files*.name,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("test without ir_fastq_path"){
+
+        tag "mixcr"
+        tag "mixcr_no_ir_fastq_path"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    "$baseDir/tests/data/pt16",
+                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                    ""
+                ]
+                """
+            }
+        }
+
+        then {
+
+            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
+
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                        stable_work_files*.name,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("test multiple ir_read_id pairs"){
+
+        tag "mixcr"
+        tag "mixcr_multiple"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test'],
+                    "$baseDir/tests/data/pt16",
+                    'pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz,pt16_downsample_L001_R1_001.fastq.gz,pt16_downsample_L001_R2_001.fastq.gz',
+                    "$baseDir/tests/data/pt16/spatial_ir/ir_fastq"
+                ]
+                """
+            }
+        }
+
+        then {
+
+            def stable_work_files = getAllFilesFromDir(process.out.aligned_paths[0][1], false, ['**/*fastq.gz'], null, ['*', '**/*'])
+
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                        stable_work_files*.name,
+                        process.out.versions,
+                        path(process.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+}

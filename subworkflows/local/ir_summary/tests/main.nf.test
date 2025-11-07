@@ -1,0 +1,51 @@
+nextflow_workflow {
+
+    name "test ir summary quarto workflow"
+    script "../main.nf"
+    workflow "IR_SUMMARY"
+
+    tag "subworkflows"
+    tag "subworkflows_local"
+
+    config "conf/test.config"
+
+
+
+    test("should pass summary"){
+
+        tag "ir_summary"
+
+        setup {
+            run("PREPROCESS_SPATIAL_IR") {
+                script "modules/local/preprocess/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [ id:'pt15' ], "$baseDir/tests/data/pt15", "$baseDir/tests/data/pt15/spatial_rna", [], "1"
+                    ]
+                    """
+                }
+            }
+        }
+
+        when {
+            workflow {
+                """
+                input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        // workflow.out.report,
+                        workflow.out.versions,
+                        path(workflow.out.versions[0]).yaml
+                    ).match()
+                }
+            )
+        }
+    }
+}

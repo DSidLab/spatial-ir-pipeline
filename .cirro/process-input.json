@@ -1,5 +1,7 @@
 {
     "cirro_input": "$.params.inputs",
     "outdir": "$.params.dataset.s3|/data/",
-    "align": "$.params.dataset.paramJson.run_options.align"
+    "sample_label": "$.dataset.params.sample_label",
+    "align": "$.dataset.params.run_options.align",
+    "fastqc": "$.dataset.params.run_options.fastqc"
 }
