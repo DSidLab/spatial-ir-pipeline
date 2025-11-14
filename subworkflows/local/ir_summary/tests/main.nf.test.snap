@@ -1,4 +1,50 @@
 {
+    "should pass summary multiple samples": {
+        "content": [
+            [
+                "_quarto.css",
+                "bcr_summary.html",
+                "index.html",
+                "ir_summary.html",
+                "cell-12-output-1.png",
+                "cell-13-output-1.png",
+                "cell-14-output-1.png",
+                "references.html",
+                "search.json",
+                "bootstrap-144ad42a2ca0a4d15ff47520e101980b.min.css",
+                "bootstrap-icons.css",
+                "bootstrap-icons.woff",
+                "bootstrap.min.js",
+                "clipboard.min.js",
+                "anchor.min.js",
+                "popper.min.js",
+                "quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css",
+                "quarto.js",
+                "tippy.css",
+                "tippy.umd.min.js",
+                "headroom.min.js",
+                "quarto-nav.js",
+                "autocomplete.umd.js",
+                "fuse.min.js",
+                "quarto-search.js",
+                "tcr_summary.html"
+            ],
+            [
+                "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
+                "versions.yml:md5,a0e88a3858b2e2f62937242f79117f56"
+            ],
+            {
+                "IR_SUMMARY:MERGE_SDATA": {
+                    "spatialdata": "0.5.0"
+                }
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-13T20:15:43.31512606"
+    },
     "should pass summary single": {
         "content": [
             [
