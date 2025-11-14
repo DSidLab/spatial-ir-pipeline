@@ -34,12 +34,14 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                input[1] = Channel.of("$baseDir/tests/data/workflow_summary.yaml")
+                input[2] = Channel.of("$baseDir/tests/data/spatial-ir-pipeline_software_versions.yml")
                 """
             }
         }
 
         then {
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/ir_summary.html'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['spatial_ir_report/**'])
 
             assertAll(
                 { assert workflow.success },
@@ -82,12 +84,14 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                input[1] = Channel.of("$baseDir/tests/data/workflow_summary.yaml")
+                input[2] = Channel.of("$baseDir/tests/data/spatial-ir-pipeline_software_versions.yml")
                 """
             }
         }
 
         then {
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['**/ir_summary.html'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['spatial_ir_report/**'])
 
             assertAll(
                 { assert workflow.success },

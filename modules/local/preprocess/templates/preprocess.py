@@ -36,7 +36,7 @@ ext.cluster_leiden(sdata)
 # ext.spagcn(ir_data) # package uses sc.tl.louvian which has been removed
 ext.rank_groups_and_get_dendrogram(sdata)  # , layer = 'data')
 # add ext methods
-# cs.analysis.get_ir_alpha_diversity(sdata, obs_mask=[None, "leiden"])
+cs.analysis.get_ir_statistics(sdata, obs_mask=[None, "leiden"])
 #
 sdata.write(f"{PREFIX}/sdata_pp.zarr")
 

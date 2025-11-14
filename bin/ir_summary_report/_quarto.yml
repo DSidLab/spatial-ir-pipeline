@@ -1,0 +1,44 @@
+project:
+  type: book
+  output-dir: summary
+  execute-dir: project
+
+book:
+  title: "Spatial Immune Receptor Pipeline Summary Report"
+  favicon: assets/logos/circuss_logo_small.png
+  repo-url: https://github.com/DSidLab/spatial-ir-pipeline.git
+  repo-actions: [edit, issue]
+  page-navigation: true
+  back-to-top-navigation: true
+  page-footer: "© Copyright 2025 Benjamin F. Green"
+  open-graph: true
+  navbar:
+    background: "#fff"
+    foreground: "#48566b"
+  chapters:
+    - href: index.qmd
+      text: "Introduction"
+    - part: "Reports"
+      chapters:
+        - href: ir_summary.qmd
+          text: "Immune Receptor Summary"
+        - href: tcr_summary.qmd
+          text: "T Cell Receptor Summary"
+        - href: bcr_summary.qmd
+          text: "B Cell Receptor Summary"
+    - href: references.qmd
+      text: "References"
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - materia
+    css: _quarto.css
+    grid:
+      body-width: 1000px
+      margin-width: 300px
+    toc: true
+    code-tools: true
+    code-fold: true
+    code-summary: "Show code"
