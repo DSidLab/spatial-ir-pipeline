@@ -50,7 +50,7 @@ al.get_receptor_stats_across_samples(
 
 ```{python}
 u_rpl = pl.metrics_plot(
-    sdata, table_name=list(sdata.tables.keys()), kde=False, column='n_IR_by_obs'
+    sdata, table_name=list(sdata.tables.keys()), kde=False, column='n_IR_by_obs', dynamic=False
 )
 u_rpl.opts(width=400)
 ```
@@ -59,7 +59,7 @@ u_rpl.opts(width=400)
 
 ```{python}
 t_rpl = pl.metrics_plot(
-    sdata, table_name=list(sdata.tables.keys()), kde=False, column="total_IR_by_obs"
+    sdata, table_name=list(sdata.tables.keys()), kde=False, column="total_IR_by_obs", dynamic=False
 )
 t_rpl.opts(width=400)
 ```
@@ -118,7 +118,7 @@ for table_name in sdata.tables.keys():
             shapes_kwargs={"legend": True, "cmap": "magma", "categorical":False},
         )
     )
-pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+pl.SubPlots(*spatial_plots, columns=max(1, len(spatial_plots) // 2), figsize=(10, 7))
 ```
 
 ## Spatial Plots of TCRs
@@ -138,7 +138,7 @@ for table_name in sdata.tables.keys():
             shapes_kwargs={"legend": True, "cmap": "magma", "categorical":False},
         )
     )
-pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+pl.SubPlots(*spatial_plots, columns=max(1, len(spatial_plots) // 2), figsize=(10, 7))
 ```
 
 ## Spatial Plots of BCRs
@@ -158,5 +158,5 @@ for table_name in sdata.tables.keys():
             shapes_kwargs={"legend": True, "cmap": "magma", "categorical": False},
         )
     )
-pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+pl.SubPlots(*spatial_plots, columns=max(1, len(spatial_plots) // 2), figsize=(10, 7))
 ```
