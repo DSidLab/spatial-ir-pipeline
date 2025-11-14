@@ -18,11 +18,7 @@ process QUARTONOTEBOOK {
     path extensions
 
     output:
-    tuple val(meta), path("*.html")                               , emit: html
-    tuple val(meta), path(notebook)                               , emit: notebook
-    tuple val(meta), path("params.yml")                           , emit: params_yaml
-    tuple val(meta), path("${notebook_parameters.artifact_dir}/*"), emit: artifacts  , optional: true
-    tuple val(meta), path("_extensions")                          , emit: extensions , optional: true
+    tuple val(meta), path(prefix)                                 , emit: report_dir
     path "versions.yml"                                           , emit: versions
 
     when:
@@ -73,10 +69,9 @@ process QUARTONOTEBOOK {
 
     # Render notebook
     quarto render \\
-        ${notebook} \\
         ${args} \\
         --execute-params params.yml \\
-        --output ${prefix}.html
+        --output-dir ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

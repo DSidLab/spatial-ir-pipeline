@@ -1,0 +1,12 @@
+.bd-main .bd-content .bd-article-container {
+    max-width: 200%;
+    /* default is 60em */
+}
+
+.bd-page-width {
+    max-width: 85%;
+}
+
+.navbar-logo {
+    max-height: 50px;
+}

@@ -1,0 +1,33 @@
+id: 'disidlab-spatial-ir-pipeline-summary'
+description: ' - this information is collected when the pipeline is started.'
+section_name: 'disidlab/spatial-ir-pipeline Workflow Summary'
+section_href: 'https://github.com/disidlab/spatial-ir-pipeline'
+plot_type: 'html'
+data: |
+    <p style="font-size:110%"><b>Input/output options</b></p>
+    <dl class="dl-horizontal">
+        <dt>input</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline/tests/data/samples_test_mixcr.csv</samp></dd>
+        <dt>outdir</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline/.nf-test/tests/aaf88e5c7684eae0b7c053ccbd20e892/output</samp></dd>
+    </dl>
+    <p style="font-size:110%"><b>Generic options</b></p>
+    <dl class="dl-horizontal">
+        <dt>pipelines_testdata_base_path</dt><dd><samp>https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/spatial-ir-pipeline</samp></dd>
+        <dt>trace_report_suffix</dt><dd><samp>2025-11-13_13-22-17</samp></dd>
+    </dl>
+    <p style="font-size:110%"><b>Institutional config options</b></p>
+    <dl class="dl-horizontal">
+        <dt>config_profile_description</dt><dd><samp>Minimal test dataset to check pipeline function</samp></dd>
+        <dt>config_profile_name</dt><dd><samp>Test profile</samp></dd>
+    </dl>
+    <p style="font-size:110%"><b>Core Nextflow options</b></p>
+    <dl class="dl-horizontal">
+        <dt>configFiles</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline/nextflow.config, /u/bgreen42/spatial-ir-pipeline/nextflow.config, /u/bgreen42/spatial-ir-pipeline/tests/nextflow.config, /u/bgreen42/spatial-ir-pipeline/conf/test.config</samp></dd>
+        <dt>container</dt><dd><samp>[MULTIQC:ghcr.io/dsidlab/spatial-ir-pipeline:latest, QUARTONOTEBOOK:ghcr.io/dsidlab/spatial-ir-pipeline:latest]</samp></dd>
+        <dt>containerEngine</dt><dd><samp>docker</samp></dd>
+        <dt>launchDir</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline/.nf-test/tests/aaf88e5c7684eae0b7c053ccbd20e892</samp></dd>
+        <dt>profile</dt><dd><samp>jhu_bki</samp></dd>
+        <dt>projectDir</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline</samp></dd>
+        <dt>runName</dt><dd><samp>sleepy_koch</samp></dd>
+        <dt>userName</dt><dd><samp>bgreen42</samp></dd>
+        <dt>workDir</dt><dd><samp>/u/bgreen42/spatial-ir-pipeline/.nf-test/tests/aaf88e5c7684eae0b7c053ccbd20e892/work</samp></dd>
+    </dl>

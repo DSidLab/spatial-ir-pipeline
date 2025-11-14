@@ -34,6 +34,8 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                input[1] = Channel.of("$baseDir/tests/data/workflow_summary.yaml")
+                input[2] = Channel.of("$baseDir/tests/data/spatial-ir-pipeline_software_versions.yml")
                 """
             }
         }
@@ -82,6 +84,8 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] =  PREPROCESS_SPATIAL_IR.out.output_paths
+                input[1] = Channel.of("$baseDir/tests/data/workflow_summary_test.yaml")
+                input[2] = Channel.of("$baseDir/tests/data/spatial-ir-pipeline_software_test_versions.yml")
                 """
             }
         }

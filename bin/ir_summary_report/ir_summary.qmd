@@ -1,0 +1,162 @@
+---
+execute:
+    warning: false
+
+jupyter: python3
+---
+
+# Part 1
+
+```{python, echo=false}
+#| tags: [parameters]
+#| echo: false
+
+input_sdata = "sdata.zarr"  # Input: spatialdata object
+```
+
+```{python}
+# Import packages and load data
+import spatialdata as sd
+from sidus import plotting as pl
+from circuss import analysis as al, plotting as cpl
+import holoviews as hv
+
+sdata = sd.read_zarr(input_sdata)
+n_samples = len(sdata.tables)
+```
+
+## Abundance summary
+
+```{python}
+al.get_receptor_stats_across_samples(sdata)
+```
+
+
+## Abundance summary for TCRs
+
+```{python}
+al.get_receptor_stats_across_samples(sdata, receptor_type='receptor_type', receptor_group='TCR')
+```
+
+## Abundance summary for BCRs
+
+```{python}
+al.get_receptor_stats_across_samples(
+    sdata, receptor_type="receptor_type", receptor_group="BCR"
+)
+```
+
+## Unique Immune Receptors per Observation
+
+```{python}
+u_rpl = pl.metrics_plot(
+    sdata, table_name=list(sdata.tables.keys()), kde=False, column='n_IR_by_obs'
+)
+u_rpl.opts(width=400)
+```
+
+## Total Immune Receptors per Observation
+
+```{python}
+t_rpl = pl.metrics_plot(
+    sdata, table_name=list(sdata.tables.keys()), kde=False, column="total_IR_by_obs"
+)
+t_rpl.opts(width=400)
+```
+
+## UMI Count per Spot by Locus
+
+```{python}
+l_plots = []
+for table_name in sdata.tables.keys():
+    l_rpl = cpl.receptor_plot(
+        sdata, table_name=table_name, kind="violin", groupby="locus", dynamic=False
+    )
+    l_rpl.opts(
+        width=400,
+        title=f"{table_name}\nUMI Counts per Spot by Locus",
+        ylabel="UMI Count per Spot",
+    )
+    l_plots.append(l_rpl)
+hv.Layout(l_plots).cols(len(l_plots) // 2)
+```
+
+## UMI Count per Spot by Receptor Type
+
+```{python}
+rt_plots = []
+for table_name in sdata.tables.keys():
+    rt_rpl = cpl.receptor_plot(
+        sdata,
+        table_name=table_name,
+        kind="violin",
+        groupby="receptor_type",
+        dynamic=False,
+    )
+    rt_rpl.opts(
+        width=400,
+        title=f"{table_name}\nUMI Counts per Spot by Receptor Type",
+        ylabel="UMI Count per Spot",
+    )
+    rt_plots.append(rt_rpl)
+hv.Layout(rt_plots).cols(len(rt_plots) // 2)
+```
+
+## Spatial Plots of all Receptors
+
+```{python}
+spatial_plots = []
+for table_name in sdata.tables.keys():
+    sampleid = table_name.replace("_rna", "")
+    spatial_plots.append(
+        pl.ShowShapes(
+            sdata,
+            sampleid=sampleid,
+            column="airr:umi_count",
+            bb = sdata[f'{sampleid}_spots'].total_bounds,
+            imshow_kwargs={'alpha': 0.5},
+            shapes_kwargs={"legend": True, "cmap": "magma", "categorical":False},
+        )
+    )
+pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+```
+
+## Spatial Plots of TCRs
+
+```{python}
+spatial_plots = []
+for table_name in sdata.tables.keys():
+    sampleid = table_name.replace("_rna", "")
+    spatial_plots.append(
+        pl.ShowShapes(
+            sdata,
+            sampleid=sampleid,
+            column="airr:umi_count",
+            groups={"airr:receptor_type": ["TCR"]},
+            bb = sdata[f'{sampleid}_spots'].total_bounds,
+            imshow_kwargs={'alpha': 0.5},
+            shapes_kwargs={"legend": True, "cmap": "magma", "categorical":False},
+        )
+    )
+pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+```
+
+## Spatial Plots of BCRs
+
+```{python}
+spatial_plots = []
+for table_name in sdata.tables.keys():
+    sampleid = table_name.replace("_rna", "")
+    spatial_plots.append(
+        pl.ShowShapes(
+            sdata,
+            sampleid=sampleid,
+            column="airr:umi_count",
+            groups={"airr:receptor_type": ["BCR"]},
+            bb=sdata[f"{sampleid}_spots"].total_bounds,
+            imshow_kwargs={"alpha": 0.5},
+            shapes_kwargs={"legend": True, "cmap": "magma", "categorical": False},
+        )
+    )
+pl.SubPlots(*spatial_plots, columns=len(spatial_plots) // 2, figsize=(10, 7))
+```
