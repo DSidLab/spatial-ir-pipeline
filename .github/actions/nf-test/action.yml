@@ -23,6 +23,7 @@ runs:
   using: "composite"
   steps:
     - name: Clean Workspace # Purge the workspace
+      shell: bash
       run: |
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf /usr/local/lib/android
