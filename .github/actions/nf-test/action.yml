@@ -22,6 +22,16 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Clean Workspace # Purge the workspace
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+        sudo rm -rf /usr/local/share/powershell
+
+        echo "Disk after cleanup:"
+        df -h
     - name: Setup Nextflow
       uses: nf-core/setup-nextflow@v2
       with:
