@@ -18,19 +18,15 @@ process QUARTONOTEBOOK {
     path extensions
 
     output:
-    tuple val(meta), path("*.html")                               , emit: html
-    tuple val(meta), path(notebook)                               , emit: notebook
-    tuple val(meta), path("params.yml")                           , emit: params_yaml
-    tuple val(meta), path("${notebook_parameters.artifact_dir}/*"), emit: artifacts  , optional: true
-    tuple val(meta), path("_extensions")                          , emit: extensions , optional: true
-    path "versions.yml"                                           , emit: versions
+    tuple val(meta), file(prefix)         , emit: report_dir
+    path "versions.yml"                   , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    args = task.ext.args ?: ''
+    prefix = task.ext.prefix ?: "${meta.id}"
     // Implicit parameters can be overwritten by supplying a value with parameters
     notebook_parameters = [
         meta: meta,
@@ -73,10 +69,9 @@ process QUARTONOTEBOOK {
 
     # Render notebook
     quarto render \\
-        ${notebook} \\
         ${args} \\
         --execute-params params.yml \\
-        --output ${prefix}.html
+        --output-dir ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -103,8 +98,7 @@ process QUARTONOTEBOOK {
     fi
     set -u
 
-    touch ${prefix}.html
-    touch params.yml
+    touch ${prefix}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

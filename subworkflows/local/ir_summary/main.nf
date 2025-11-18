@@ -8,13 +8,15 @@ include { MERGE_SDATA    } from "../../../modules/local/merge_sdata"
 workflow IR_SUMMARY {
     take:
     ch_samples
+    ch_workflow_summary
+    ch_collated_versions
 
     main:
 
     ch_versions = channel.empty()
 
     // Quarto report and extensions files
-    ir_summary_notebook = file("${projectDir}/bin/ir_summary.qmd", checkIfExists: true)
+    ir_summary_notebook = file("${projectDir}/bin/ir_summary_report/*")
     extensions = channel.fromPath("${projectDir}/assets/_extensions").collect()
     //
     ch_samples
@@ -29,10 +31,13 @@ workflow IR_SUMMARY {
     ch_versions = ch_versions.mix(MERGE_SDATA.out.versions)
     ch_merged_sdata = MERGE_SDATA.out.sdata
     //
+    ch_merged_sdata.map{sdata -> sdata[1]}.set{ch_input_files}
+    ch_input_files = ch_input_files.mix(ch_workflow_summary, ch_collated_versions)
+    //
     QUARTONOTEBOOK(
-        [[id: 'ir_summary_report'], ir_summary_notebook],
-        [input_sdata: "merged_sdata.zarr"],
-        ch_merged_sdata.map { sdata -> sdata[1] },
+        [[id: 'spatial_ir_report'], ir_summary_notebook],
+        [input_sdata: "merged_sdata.zarr",version_file: "spatial-ir-pipeline_software_versions.yml",parameters_file: "workflow_summary.yaml"],
+        ch_input_files.toList(),
         extensions,
     )
 
@@ -40,5 +45,6 @@ workflow IR_SUMMARY {
 
     emit:
     merged_sdata = ch_merged_sdata
+    report_dir  = QUARTONOTEBOOK.out.report_dir.toList()
     versions     = ch_versions
 }

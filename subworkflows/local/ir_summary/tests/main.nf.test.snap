@@ -2,7 +2,24 @@
     "should pass summary multiple samples": {
         "content": [
             [
-                "ir_summary.html"
+                "_quarto.css",
+                "bcr_summary.html",
+                "index.html",
+                "ir_summary.html",
+                "cell-12-output-1.png",
+                "cell-13-output-1.png",
+                "cell-14-output-1.png",
+                "references.html",
+                "search.json",
+                "clipboard.min.js",
+                "anchor.min.js",
+                "popper.min.js",
+                "tippy.css",
+                "tippy.umd.min.js",
+                "headroom.min.js",
+                "autocomplete.umd.js",
+                "fuse.min.js",
+                "tcr_summary.html"
             ],
             [
                 "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
@@ -18,12 +35,29 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T02:14:18.287928818"
+        "timestamp": "2025-11-18T09:15:53.802730428"
     },
     "should pass summary single": {
         "content": [
             [
-                "ir_summary.html"
+                "_quarto.css",
+                "bcr_summary.html",
+                "index.html",
+                "ir_summary.html",
+                "cell-12-output-1.png",
+                "cell-13-output-1.png",
+                "cell-14-output-1.png",
+                "references.html",
+                "search.json",
+                "clipboard.min.js",
+                "anchor.min.js",
+                "popper.min.js",
+                "tippy.css",
+                "tippy.umd.min.js",
+                "headroom.min.js",
+                "autocomplete.umd.js",
+                "fuse.min.js",
+                "tcr_summary.html"
             ],
             [
                 "versions.yml:md5,9dec1057fddb9eabd9d9ce670c40ae04",
@@ -39,6 +73,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-07T02:13:00.449012909"
+        "timestamp": "2025-11-18T09:13:28.209952036"
     }
 }

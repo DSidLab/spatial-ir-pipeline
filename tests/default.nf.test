@@ -11,7 +11,7 @@ nextflow_pipeline {
 
         when {
             params {
-                input = "$baseDir/tests/data/samples.csv"
+                input = "$baseDir/tests/data/samples_full.csv"
                 outdir = "$outputDir"
             }
         }

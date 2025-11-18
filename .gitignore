@@ -218,3 +218,10 @@ outs/
 testing/
 testing*
 null/
+
+bin/ir_summary_report/_tmp/
+bin/ir_summary_report/_book/
+bin/ir_summary_report/summary/
+.xdg_cache_home/
+*_ipynb
+bin/ir_summary_report/.gitignore
