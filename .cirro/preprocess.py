@@ -138,9 +138,9 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
             ds.logger.warning(f"Samplesheet is missing required column '{colname}'. Populating with NaN.")
             samplesheet[colname] = np.nan
 
-    for colname in samplesheet.columns:
-        if colname not in SAMPLESHEET_COLUMNS:
-            del samplesheet[colname]
+    # for colname in samplesheet.columns:
+    #    if colname not in SAMPLESHEET_COLUMNS:
+    #        del samplesheet[colname]
 
     # Save to a file
     samplesheet.to_csv("cirro-samplesheet.csv", index=None)
