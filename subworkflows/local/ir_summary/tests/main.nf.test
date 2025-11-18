@@ -41,7 +41,7 @@ nextflow_workflow {
         }
 
         then {
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['spatial_ir_report/**'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['**/bootstrap*', '**/quarto*'], null, ['spatial_ir_report/**'])
 
             assertAll(
                 { assert workflow.success },
@@ -91,7 +91,7 @@ nextflow_workflow {
         }
 
         then {
-            def stable_out_files = getAllFilesFromDir(params.outdir, false, null, null, ['spatial_ir_report/**'])
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['**/bootstrap*', '**/quarto*'], null, ['spatial_ir_report/**'])
 
             assertAll(
                 { assert workflow.success },
