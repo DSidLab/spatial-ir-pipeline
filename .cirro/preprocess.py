@@ -87,6 +87,9 @@ def get_sample_paths(samples, files, sample_label, logger=None) -> pd.DataFrame:
     """
     Create a samplesheet dataframe.
     """
+    if logger is not None:
+        logger.info("files:\n%s", files.to_dict())
+    #
     samples["sampleid"] = samples[sample_label]
     samples = samples[["sample", "sampleid"]].drop_duplicates().copy()
     #
