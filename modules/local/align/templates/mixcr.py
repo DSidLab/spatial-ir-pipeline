@@ -29,7 +29,7 @@ IR_FASTQ_PATH = "$ir_fastq_path" if "$ir_fastq_path" != "" else None
 
 clonotype_outputs = []
 for clonotype_id in range(n_pairs):
-    clonotype_outputs.append(f"{PREFIX}/clonotype_output/{clonotype_id + 1}")
+    clonotype_outputs.append(f"{PREFIX}/clonotype_output/parameter_set_{clonotype_id + 1}")
 
 cs.align.run_mixcr(
     sampleid="$meta.id",

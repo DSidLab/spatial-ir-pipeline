@@ -1,0 +1,14 @@
+{
+    "Should run successfully when only no samples need alignment": {
+        "content": [
+            [
+                "versions.yml"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-18T16:49:42.170881126"
+    }
+}

@@ -18,7 +18,7 @@ process QUARTONOTEBOOK {
     path extensions
 
     output:
-    tuple val(meta), file(prefix)         , emit: report_dir
+    tuple val(meta), path(prefix)         , emit: report_dir
     path "versions.yml"                   , emit: versions
 
     when:
