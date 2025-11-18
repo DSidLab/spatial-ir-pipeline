@@ -1,6 +1,6 @@
 process PREPROCESS_SPATIAL_IR {
     tag "${meta.id}"
-    label "process_low"
+    label "process_medium"
     container "ghcr.io/dsidlab/spatial-ir-pipeline:latest"
 
     input:
