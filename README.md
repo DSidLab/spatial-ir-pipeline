@@ -1,7 +1,7 @@
 # dsidlab/spatial-ir-pipeline
 
 [![GitHub Actions CI Status](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/nf-test.yml/badge.svg)](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/format_and_lint.yml/badge.svg)](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/format_and_lint.yml)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/format_and_lint.yml/badge.svg)](https://github.com/dsidlab/spatial-ir-pipeline/actions/workflows/format_and_lint.yml)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A523.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
@@ -11,7 +11,7 @@
 
 ## Introduction
 
-**spatial-ir-pipeline** is a bioinformatics pipeline that ...
+**spatial-ir-pipeline** is built to process spatial transcriptomics data with matched targeted immune receptor sequencing (IR-seq) data. The pipeline performs preprocessing of the spatial IR-seq data, integrates the IR-seq data with the spatial transcriptomics data, and generates summary reports.
 
 ## Usage
 
@@ -26,6 +26,8 @@ nextflow run dsidlab/spatial-ir-pipeline \
    --input samplesheet.csv \
    --outdir <OUTDIR>
 ```
+
+Additional documentation regarding usage and output can be found in the [docs folder](docs/README.md).
 
 > [!NOTE]
 > The pipeline has only been tested using _docker_ profiles. The pipeline uses private Python packages `sidus` and `circuss` which are in development. The docker container denoted in processes has development versions installed.

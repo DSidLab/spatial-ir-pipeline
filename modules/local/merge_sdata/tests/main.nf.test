@@ -20,7 +20,7 @@ nextflow_process {
                 process {
                     """
                     input[0] = [
-                        [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                        [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "$baseDir/tests/data/test_15/spatial_ir/clonotype_output/parameter_set_1"
                     ]
                     """
                 }
@@ -69,10 +69,10 @@ nextflow_process {
                     """
                     input[0] = Channel.of(
                         [
-                            [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                            [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "$baseDir/tests/data/test_15/spatial_ir/clonotype_output/parameter_set_1"
                         ],
                         [
-                            [ id:'pt19' ], "$baseDir/tests/data/test_19", "$baseDir/tests/data/test_19/spatial_rna", [], "1"
+                            [ id:'pt19' ], "$baseDir/tests/data/test_19", "$baseDir/tests/data/test_19/spatial_rna", [], "$baseDir/tests/data/test_19/spatial_ir/clonotype_output/parameter_set_1"
                         ]
                     )
                     """

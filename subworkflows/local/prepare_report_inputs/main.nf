@@ -68,6 +68,7 @@ workflow PREPARE_REPORT_INPUTS {
         )
     )
 
+
     emit:
     multiqc_files = ch_multiqc_files
     multiqc_config = ch_multiqc_config

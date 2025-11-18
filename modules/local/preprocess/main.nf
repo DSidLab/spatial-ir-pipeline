@@ -1,10 +1,10 @@
 process PREPROCESS_SPATIAL_IR {
     tag "${meta.id}"
-    label "process_low"
+    label "process_medium"
     container "ghcr.io/dsidlab/spatial-ir-pipeline:latest"
 
     input:
-    tuple val(meta), path(sample_path), path(spatial_rna), path(cell_annotations), val(clonotype_output)
+    tuple val(meta), path(sample_path), path(spatial_rna), path(cell_annotations), path(clonotype_output)
 
     script:
     prefix = task.ext.prefix ?: "${meta.id}"

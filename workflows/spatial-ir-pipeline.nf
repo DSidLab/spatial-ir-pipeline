@@ -41,14 +41,20 @@ workflow SPATIAL_IR_PIPELINE {
     //
     // MODULE: RUN MULTIQC
     //
-    MULTIQC(
-        PREPARE_REPORT_INPUTS.out.multiqc_files.collect(),
-        PREPARE_REPORT_INPUTS.out.multiqc_config.toList(),
-        PREPARE_REPORT_INPUTS.out.multiqc_custom_config.toList(),
-        PREPARE_REPORT_INPUTS.out.multiqc_logo.toList(),
-        [],
-        [],
-    )
+    ch_multiqc_report = channel.empty()
+    //
+    if (params.run_fastqc_on_irseq) {
+        MULTIQC(
+            PREPARE_REPORT_INPUTS.out.multiqc_files.collect(),
+            PREPARE_REPORT_INPUTS.out.multiqc_config.toList(),
+            PREPARE_REPORT_INPUTS.out.multiqc_custom_config.toList(),
+            PREPARE_REPORT_INPUTS.out.multiqc_logo.toList(),
+            [],
+            [],
+        )
+        // Collect MultiQC report
+        ch_multiqc_report = MULTIQC.out.report.toList()
+    }
     //
     // SUBWORKFLOW: RUN IR_SUMMARY
     //
@@ -57,7 +63,7 @@ workflow SPATIAL_IR_PIPELINE {
     ch_versions = ch_versions.mix(IR_SUMMARY.out.versions)
 
     emit:
-    multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+    multiqc_report = ch_multiqc_report // channel: /path/to/multiqc_report.html
     ir_report    = IR_SUMMARY.out.report_dir // channel: /path/to/spatial_ir_report
     versions       = ch_versions // channel: [ path(versions.yml) ]
 }

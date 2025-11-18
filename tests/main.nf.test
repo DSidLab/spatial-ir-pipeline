@@ -19,7 +19,12 @@ nextflow_pipeline {
         }
 
         then {
-            assert workflow.success
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['**/bootstrap*', '**/quarto*', 'pipeline_info/*', '**/*fastq.gz'], null, ['*'])
+
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(stable_out_files*.name).match() }
+            )
         }
 
     }
@@ -36,12 +41,40 @@ nextflow_pipeline {
         }
 
         then {
-            assert workflow.success
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['**/bootstrap*', '**/quarto*', 'pipeline_info/*', '**/*fastq.gz'], null, ['*'])
+
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(stable_out_files*.name).match() }
+            )
         }
 
     }
 
-     test("Should produce an error with invalid sample sheet format") {
+    test("Should run successfully when only no samples need alignment") {
+
+        tag "valid_slim_pipeline"
+
+        when {
+            params {
+              input = "$baseDir/tests/data/samples.csv"
+              outdir = "$outputDir"
+              run_fastqc_on_irseq=false
+            }
+        }
+
+        then {
+            def stable_out_files = getAllFilesFromDir(params.outdir, false, ['**/bootstrap*', '**/quarto*', 'pipeline_info/*', '**/*fastq.gz'], null, ['*'])
+
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(stable_out_files*.name).match() }
+            )
+        }
+
+    }
+
+    test("Should produce an error with invalid sample sheet format") {
 
         tag "invalid_sample_format"
         tag "pipeline_errors"

@@ -87,6 +87,9 @@ def get_sample_paths(samples, files, sample_label, logger=None) -> pd.DataFrame:
     """
     Create a samplesheet dataframe.
     """
+    if logger is not None:
+        logger.info("files:\n%s", files.to_dict())
+    #
     samples["sampleid"] = samples[sample_label]
     samples = samples[["sample", "sampleid"]].drop_duplicates().copy()
     #
@@ -105,11 +108,9 @@ def get_sample_paths(samples, files, sample_label, logger=None) -> pd.DataFrame:
 
 
 def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
-    """Set params as samplesheet.
-    Assumes ds.params["cirro_input"] is a list of dicts with keys "name" and "s3".
     """
-    ds.logger.info("params: %s", ds.params)
-    #
+    Setup samplesheet for Cirro pipeline.
+    """
     if ds.files.empty:
         ds.logger.warning("No files found. Preparing samplesheet from dataset paths.")
         samplesheet = pd.DataFrame(
@@ -119,7 +120,9 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
             }
         )
     else:
-        samplesheet = get_sample_paths(ds.samplesheet, ds.files, ds.params.sample_label, ds.logger)
+        samplesheet = get_sample_paths(ds.samplesheet, ds.files, ds.params["sample_label"], ds.logger)
+    #
+    # add any additional params as columns and remove them from params (e.g. 'align')
     #
     for k in SAMPLESHEET_COLUMNS:
         if k in ds.params.keys():
@@ -135,15 +138,14 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
             ds.logger.warning(f"Samplesheet is missing required column '{colname}'. Populating with NaN.")
             samplesheet[colname] = np.nan
 
-    for colname in samplesheet.columns:
-        if colname not in SAMPLESHEET_COLUMNS:
-            del samplesheet[colname]
+    # for colname in samplesheet.columns:
+    #    if colname not in SAMPLESHEET_COLUMNS:
+    #        del samplesheet[colname]
 
     # Save to a file
     samplesheet.to_csv("cirro-samplesheet.csv", index=None)
-    #
     ds.remove_param("cirro_input")
-
+    ds.remove_param("sample_label")
     ds.add_param("input", "cirro-samplesheet.csv")
 
     # Log the samplesheet
@@ -151,15 +153,25 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
 
 
 def main():
-    """Main function."""
+    """
+    Main function.
+    """
     ds = PreprocessDataset.from_running()
-
+    #
+    # log the params
+    #
+    ds.logger.info("params: ")
+    for k, v in ds.params.items():
+        ds.logger.info("  %s: %s", k, v)
+    #
+    # prepare samplesheet (added as 'input' param)
+    #
     prepare_samplesheet(ds)
-
-    # log
-    ds.logger.info(ds.params)
-    print(ds.params)
-    raise SystemExit(0)
+    #
+    # run_fastqc_on_irseq
+    #
+    if "run_fastqc_on_irseq" not in ds.params:
+        ds.add_param("run_fastqc_on_irseq", False)
 
 
 if __name__ == "__main__":
