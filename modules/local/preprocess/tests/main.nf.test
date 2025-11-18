@@ -22,7 +22,7 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "1"
+                    [ id:'pt15' ], "$baseDir/tests/data/test_15", "$baseDir/tests/data/test_15/spatial_rna", [], "$baseDir/tests/data/test_15/spatial_ir/clonotype_output/parameter_set_1"
                 ]
                 """
             }
