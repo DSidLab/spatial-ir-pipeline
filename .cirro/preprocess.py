@@ -142,6 +142,7 @@ def prepare_samplesheet(ds: PreprocessDataset) -> pd.DataFrame:
     # Save to a file
     samplesheet.to_csv("cirro-samplesheet.csv", index=None)
     ds.remove_param("cirro_input")
+    ds.remove_param("sample_label")
     ds.add_param("input", "cirro-samplesheet.csv")
 
     # Log the samplesheet
