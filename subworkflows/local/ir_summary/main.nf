@@ -17,7 +17,6 @@ workflow IR_SUMMARY {
 
     // Quarto report and extensions files
     ir_summary_notebook = file("${projectDir}/bin/ir_summary_report/*")
-    extensions = channel.fromPath("${projectDir}/assets/_extensions").collect()
     //
     ch_samples
         .map { sample -> sample[1] }
@@ -38,7 +37,7 @@ workflow IR_SUMMARY {
         [[id: 'spatial_ir_report'], ir_summary_notebook],
         [input_sdata: "merged_sdata.zarr",version_file: "spatial-ir-pipeline_software_versions.yml",parameters_file: "workflow_summary.yaml"],
         ch_input_files.toList(),
-        extensions,
+        [],
     )
 
     ch_versions = ch_versions.mix(QUARTONOTEBOOK.out.versions)
