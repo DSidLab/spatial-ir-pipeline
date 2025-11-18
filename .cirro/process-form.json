@@ -7,6 +7,7 @@
             "sample_label": {
                 "title": "Sample Label",
                 "type": "string",
+                "default": "sample",
                 "description": "Label from the samplesheet corresponding to this sample. This will be used to match the Immune Receptor Sequencing dataset to the Visium dataset."
             },
             "run_options": {
